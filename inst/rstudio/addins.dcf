@@ -1,0 +1,4 @@
+Name: Start hipervizr (browser)
+Description: Inicia hipervizr en el default browser
+Binding: launchApp
+Interactive: true
