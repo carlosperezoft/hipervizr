@@ -68,9 +68,7 @@ shinyServer(function(input, output, session) {
        br(), tags$a("carlos.perez7@udea.edu.co", # NO usar el atributo "title="impide que se active el link!
                     href= "https://www.linkedin.com/in/carlos-alberto-perez-moncada-07b6b630/",
                     target="_blank",icon("linkedin-square", "fa-2x")), br(),
-       br(), tags$b("Director del Proyecto: John Freddy Duitama"),
-       br(), tags$b("CO-Director del Proyecto: Juan Delgado Lastra"),
-       hr(), tags$b("Grupo de Investigaci\u00F3n: Ingeniería y Software"),
+       br(), tags$b("Director del Proyecto: Juan Delgado Lastra"),
        br(), tags$b("Programa: Maestría en Ingeniería con énfasis en Informática"),
        hr(), tags$a(tags$b("AYUDA localhost..."), # NO usar el atributo "title="impide que se active el link!
                     href = "/ayuda/rmarkdown_test.html", target = "_blank",
@@ -81,7 +79,7 @@ shinyServer(function(input, output, session) {
   )
   ## FIN AYUDA
 
-  # Elementos graficos en PLTLY JS (GGPLOT2)
+  # Elementos graficos en PLOTLY JS (GGPLOT2)
   source('include_server/mosaico_plotly_server.R', local=TRUE)
   # FIN QGRAPH
 

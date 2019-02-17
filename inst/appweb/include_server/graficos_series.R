@@ -2,14 +2,10 @@
 # carlos.perez7@udea.edu.co
 # 01/02/2019 9:26:08 a. m.
 #
-dataSeries <- reactive({
-   ds <- NULL
-   if(input$showgrid) {
-      ds <- NULL
-   }
-   ds <- read_excel("C:\\Temp\\Cartas_Variab_Total_Variable.xlsx")
-   return(ds)
-})
+# cartaControlData <- eventReactive(input$loadDatosCartaButton, {
+#    ccData <- read_excel("C:\\Temp\\Datos_Carta_Control_Detalle.xlsx")
+#    return(ccData)
+# })
 #
 output$dySerieFrom <- renderText({
   req(input$serieBaseHiperPlot_date_window[[1]])
@@ -29,7 +25,7 @@ output$dySeriePoint <- renderText({
 })
 #
 output$serieBaseHiperPlot <- renderDygraph({
-  dsBase <- dataSeries()
+  dsBase <- hiperCartaData
   req(dsBase)
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[c("id_t", "Lim_Inf_SST_tr", "Media_SST_tr", "Lim_Sup_SST_tr")]
@@ -48,7 +44,7 @@ output$serieBaseHiperPlot <- renderDygraph({
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
-     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Solidos Sat. Tr")
+     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "S\u00F3lidos Sat. Tr")
   }
   if(!input$showgrid) {
      gSerie <- gSerie %>% dyCrosshair() %>%
@@ -59,7 +55,7 @@ output$serieBaseHiperPlot <- renderDygraph({
 })
 #
 output$serieSSTHiperPlot <- renderDygraph({
-  dsBase <- dataSeries()
+  dsBase <- hiperCartaData
   req(dsBase)
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[c("id_t", "Lim_Inf_SST", "Media_SST", "Lim_Sup_SST")]
@@ -75,7 +71,7 @@ output$serieSSTHiperPlot <- renderDygraph({
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
-     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Solidos Saturados")
+     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "S\u00F3lidos Saturados")
   }
   if(!input$showgrid) {
      gSerie <- gSerie %>% dyCrosshair()
@@ -85,7 +81,7 @@ output$serieSSTHiperPlot <- renderDygraph({
 })
 #
 output$serieConductHiperPlot <- renderDygraph({
-  dsBase <- dataSeries()
+  dsBase <- hiperCartaData
   req(dsBase)
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[c("id_t", "Lim_Inf_Conduct", "Media_Conduct", "Lim_Sup_Conduct")]
@@ -112,7 +108,7 @@ output$serieConductHiperPlot <- renderDygraph({
 })
 #
 output$serieTemperaHiperPlot <- renderDygraph({
-  dsBase <- dataSeries()
+  dsBase <- hiperCartaData
   req(dsBase)
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[c("id_t", "Lim_Inf_Tempera", "Media_Tempera", "Lim_Sup_Tempera")]
@@ -132,6 +128,94 @@ output$serieTemperaHiperPlot <- renderDygraph({
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Temperatura")
   }
   if(!input$showgrid) {
+     gSerie <- gSerie %>% dyCrosshair()
+  }
+  #
+  return(gSerie)
+})
+#
+output$hipercartaBasePlot <- renderDygraph({
+  dsBase <- hiperCartaData
+  req(dsBase)
+  # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
+  dataSerie <- dsBase[c("id_t", "Lim_Inf_SST", "Media_SST", "Lim_Sup_SST")]
+  #
+  if(input$ccTipoCarta == "Intervalo de Confianza") {
+     colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
+  }
+  #
+  gSerie <- dygraph(dataSerie, main = "Hipercarta S\u00F3lidos Saturados (SST)",
+                    xlab="id_t hipercarta", ylab="SST Agrupado") %>%
+               dyRangeSelector() %>% dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
+               dyOptions(drawGrid=input$ccShowgridCheck, drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
+               dyLegend(width = 500)
+  #
+  if(input$ccTipoCarta == "Intervalo de Confianza") {
+     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Media SST")
+  }
+  if(!input$ccShowgridCheck) {
+     gSerie <- gSerie %>% dyCrosshair()
+  }
+  #
+  return(gSerie)
+})
+#
+output$cartaControlSSTPlot <- renderDygraph({
+  req(cartaControlData)
+  req(input$hipercartaBasePlot_click$x)
+  #
+  # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
+  dataSerie <- cartaControlData %>%
+               filter(id_t == input$hipercartaBasePlot_click$x) %>%
+               select("VAR_SST", "TIPO_DIA", "MES", "DIA_SEMANA")
+  #
+  if(input$ccTipoDia != 0) {
+     dataSerie <- dataSerie %>% filter(TIPO_DIA == input$ccTipoDia)
+  }
+  #
+  if(input$ccMes != 0) {
+     dataSerie <- dataSerie %>% filter(MES == input$ccMes)
+  }
+  #
+  if(input$ccDiaSemana != 0) {
+     dataSerie <- dataSerie %>% filter(DIA_SEMANA == input$ccDiaSemana)
+  }
+  #
+  shiny::validate(
+    shiny::need(nrow(dataSerie) > 0, # Este check valida la condicion de forma "afirmativa"..
+                "No se tienen observaciones en la Carta de Control para los filtros usados.")
+  )
+  #
+  hcIntervalo <- hiperCartaData %>%
+                 filter(id_t == input$hipercartaBasePlot_click$x) %>%
+                 select("Lim_Inf_SST", "Media_SST", "Lim_Sup_SST")
+  #
+  # Finalmente se deja la columna efectiva para la serie:
+  dataSerie <- dataSerie %>% select("VAR_SST")
+  # Se adiciona explicitamente la columna el numero de fila como "row_id":
+  dataSerie$row_id <- seq(1:(nrow(dataSerie)))
+  # Reordenamiento de las columnas del data_frame para que el row_id sea la primera
+  # que el "dygraph" lo usa para el eje X:
+  dataSerie <- dataSerie[c("row_id", "VAR_SST")]
+  #
+  gSerie <- dygraph(dataSerie, main = "Carta de Control S\u00F3lidos Saturados (SST)",
+                    xlab=paste("Observaciones id_t =", input$hipercartaBasePlot_click$x),
+                    ylab="SST Medido") %>%
+               dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
+               dyOptions(drawGrid=input$ccShowgridCheck, drawPoints=TRUE, pointSize=2,
+                         axisLineColor = "navy", gridLineColor = "lightblue", pointShape="ex") %>%
+               dySeries("VAR_SST", label = "Valor Puntual SST", color = "blue") %>% # Usar un label especifico
+               dyLimit(as.numeric(hcIntervalo["Lim_Inf_SST"]), color = "red",
+                       label = as.character(hcIntervalo["Lim_Inf_SST"])) %>%
+               dyLimit(as.numeric(hcIntervalo["Media_SST"]), color = "red",
+                       label = as.character(hcIntervalo["Media_SST"]), labelLoc = "right") %>% # left
+               dyLimit(as.numeric(hcIntervalo["Lim_Sup_SST"]), color = "red",
+                       label = as.character(hcIntervalo["Lim_Sup_SST"])) %>%
+               dyShading(from = as.numeric(hcIntervalo["Lim_Inf_SST"]),
+                         to = as.numeric(hcIntervalo["Lim_Sup_SST"]), axis = "y") %>%
+               dyLegend(width = 500)
+  #
+  if(!input$ccShowgridCheck) {
      gSerie <- gSerie %>% dyCrosshair()
   }
   #

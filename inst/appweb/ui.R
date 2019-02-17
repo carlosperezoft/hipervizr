@@ -29,9 +29,14 @@ sidebar <- dashboardSidebar(width = "250px",
                badgeLabel = "HOME", badgeColor = "green", selected = TRUE ),
       menuItem("Coordenadas Paralelas", tabName = "coordParall",
                icon = shiny::icon("tasks"), badgeLabel = "UTIL", badgeColor = "red"),
-      menuItem("hipercarta (Series)", tabName = "hipercarta",
+      # tabItem implementado en "hipercartaMaestro_tab.R":
+      menuItem("Hiper-trellis", tabName = "hipercartaMaestro",
                icon = shiny::icon("stats", lib = "glyphicon"),
-               badgeLabel = "NUEVO", badgeColor = "orange"),
+               badgeLabel = "Mosaico", badgeColor = "orange"),
+      # tabItem implementado en "series_contenido_tab.R":
+      menuItem("Hipercarta", tabName = "cartaControlDetalle",
+               icon = icon("dashboard"), badgeLabel = "NUEVO", badgeColor = "blue"),
+
       # NOTA: el uso de los atributos "BADGE" no aplican en un "menuItem" con submenus
       menuItem(text = "Secci\u00F3n EDA/EGA", icon = icon("thumbs-up", lib = "glyphicon"),
                # NOTA: Los atributos "badgeLabel" y "badgeColor" NO aplican en un menuSubItem !
@@ -82,8 +87,13 @@ body <- dashboardBody(
     ),
     # SE USA LA FUNCION source(..) con el acceso especifico al $value; para evitar que se
     # procese el contenido, pues causa que se genere el codigo HTML respectivo...
-    # Se debe incluir el tabItem completo, sino el include .R genera errores de validacion:
-    source("include_ui/series_contenido_tab.R", local = TRUE)$value,
+    # Se debe incluir el tabItem completo, sino el include .R genera errores de validacion.
+    # ***
+    # NUEVO: Tener en cuenta que el "x_tab" tiene un SOLO tabItem, esto debido a que la forma
+    # de procesamiento de R-Studio y Shiny generan error de ejecucion y/o compilacion
+    # ***
+    source("include_ui/hipercartaMaestro_tab.R", local = TRUE)$value,
+    source("include_ui/cartaControlDetalle_tab.R", local = TRUE)$value,
     source("include_ui/submenu_mosaico_plotly.R", local = TRUE)$value,
     tabItem(tabName = "ayudaTab", href = "/ayuda/rmarkdown_test.html", newtab = TRUE)
   ) # /tabItems

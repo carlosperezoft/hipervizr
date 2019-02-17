@@ -72,7 +72,7 @@ output$capasSTATPlot <- renderPlotly({
 })
 #
 output$cuadranteSTATPlot <- renderPlotly({
-  # ACTUALIZACION DE LA INDFORMACION CON LOS ATRIBUTOS DINAMICOS QUE PROPORCIONA EL "DT"
+  # ACTUALIZACION DE LA INFORMACION CON LOS ATRIBUTOS DINAMICOS QUE PROPORCIONA EL "DT"
   rowIdx = input$subplotArrayDT_rows_selected
   if(length(rowIdx) > 0) {
     dataSEL = txhousing[rowIdx, ,drop = FALSE]
@@ -91,8 +91,13 @@ output$cuadranteSTATPlot <- renderPlotly({
 #
 output$subplotArrayDT <- renderDT({
   # customize the length drop-down menu; display 5 rows per page by default
-  DT::datatable(txhousing,
-      options = list(orderClasses = TRUE, lengthMenu = c(5, 10, 50), pageLength = 5))
+  DT::datatable(txhousing[1:1000,], extensions = 'Buttons',
+    options = list(
+       dom = 'Bfrtip',
+       buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+       orderClasses = TRUE, lengthMenu = c(5, 10, 50), pageLength = 25
+    )
+  )
 })
 #
 output$predictSTATPlot  <- renderPlotly({
