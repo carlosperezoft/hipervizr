@@ -71,7 +71,7 @@ output$serieSSTHiperPlot <- renderDygraph({
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
-     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "S\u00F3lidos Saturados")
+     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "S\u00F3lidos Suspendidos Totales")
   }
   if(!input$showgrid) {
      gSerie <- gSerie %>% dyCrosshair()
@@ -144,7 +144,7 @@ output$hipercartaBasePlot <- renderDygraph({
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Hipercarta S\u00F3lidos Saturados (SST)",
+  gSerie <- dygraph(dataSerie, main = "S\u00F3lidos Suspendidos Totales (SST)",
                     xlab="id_t hipercarta", ylab="SST Agrupado") %>%
                dyRangeSelector() %>% dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$ccShowgridCheck, drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
@@ -198,7 +198,7 @@ output$cartaControlSSTPlot <- renderDygraph({
   # que el "dygraph" lo usa para el eje X:
   dataSerie <- dataSerie[c("row_id", "VAR_SST")]
   #
-  gSerie <- dygraph(dataSerie, main = "Carta de Control S\u00F3lidos Saturados (SST)",
+  gSerie <- dygraph(dataSerie, main = "S\u00F3lidos Suspendidos Totales (SST)",
                     xlab=paste("Observaciones id_t =", input$hipercartaBasePlot_click$x),
                     ylab="SST Medido") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
