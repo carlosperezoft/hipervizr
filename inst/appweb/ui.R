@@ -27,8 +27,8 @@ sidebar <- dashboardSidebar(width = "250px",
   sidebarMenu(id = "sidebarMenu",
       menuItem("Inicio", tabName = "homeTab", icon = icon("credit-card"),
                badgeLabel = "HOME", badgeColor = "green", selected = TRUE ),
-      menuItem("Coordenadas Paralelas", tabName = "coordParall",
-               icon = shiny::icon("tasks"), badgeLabel = "UTIL", badgeColor = "red"),
+      menuItem("An\u00E1lisis de Densidad", tabName = "coordPar_densidad-2D",
+               icon = shiny::icon("tasks"), badgeLabel = "2D", badgeColor = "red"),
       # tabItem implementado en "hipercartaMaestro_tab.R":
       menuItem("Hiper-trellis", tabName = "hipercartaMaestro",
                icon = shiny::icon("stats", lib = "glyphicon"),
@@ -72,19 +72,7 @@ body <- dashboardBody(
     # procese el contenido, pues causa que se genere el codigo HTML respectivo...
     # Se debe incluir el tabItem completo, sino el include .R genera errores de validacion:
     source("include_ui/home_tab.R", local = TRUE)$value,
-    tabItem(tabName = "coordParall",
-      h2("Coordenadas Paralelas [Ejemplo: Datos Vehiculos e IRIS]"),
-      br(),
-      helpText("Clic y arrastar sobre los ejes verticales - ordenar o filtrar - brushing (doble clic para restaurar)."),
-      fluidRow(
-        # NOTA: withSpinner(), presenta el icono de LOADING... mientras procesa la imagen...
-        box(
-          title = "Parcoords Plot Example", width = NULL, status = "primary",
-          plotOutput( "iris_pairs", width = "400px" ) %>% withSpinner()
-        ),
-        parcoordsOutput("paralCoordsPlot", width = "100%", height = "500px" ) %>% withSpinner()
-      )
-    ),
+    source("include_ui/coordPar_densidad-2D_tab.R", local = TRUE)$value,
     # SE USA LA FUNCION source(..) con el acceso especifico al $value; para evitar que se
     # procese el contenido, pues causa que se genere el codigo HTML respectivo...
     # Se debe incluir el tabItem completo, sino el include .R genera errores de validacion.
