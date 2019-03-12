@@ -13,47 +13,9 @@ shinyServer(function(input, output, session) {
   # relativa al "server.R"; en el directorio: "/help_files/" (nombre por defecto).
   #
   observe_helpers(help_dir = "help_files")
-
-  # COORDENADAS PARALELAS ---------------------------------------------------
-  output$iris_pairs <- renderPlot({
-    rows <- rownames(iris)
-
-    # example from ?pairs
-    pairs(
-      iris[rows,-5]
-      , main = "Anderson's Iris Data -- 3 species"
-      , pch = 21
-      , bg = RColorBrewer::brewer.pal(3,'Set1')[unclass(iris[rows,]$Species)]
-    )
-  })
-
-  output$paralCoordsPlot <- renderParcoords({
-    tryCatch({
-      pc <- parcoords(reorderable = TRUE,
-        iris[,c(5,1:4)]  # order columns so species first
-        , rownames=F
-        , brushMode="1d"
-        , color = list(
-          colorScale = htmlwidgets::JS(sprintf(
-            'd3.scale.ordinal().range(%s).domain(%s)'
-            ,jsonlite::toJSON(RColorBrewer::brewer.pal(3,'Set1'))
-            ,jsonlite::toJSON(as.character(unique(iris$Species)))
-          ))
-          ,colorBy = "Species"
-        )
-      )
-    },
-    error = function(e) {
-      print(sprintf("Inner error: %s", e))
-    },
-    warning = function(e) {
-      print(sprintf("Inner warning: %s", e))
-    },
-    finally = {
-      print(sprintf("Inner tryCatch all done, result is %s", "EJECUCION EXITOSA!"))
-    })
-  })
-
+  #
+  source('include_server/coord-paralelas_densidad-2D.R', local=TRUE)
+  #
   # GRAFICOS DE SERIES - SINCRONIZADOS --------------------------------------
   # SE USA LA FUNCION source(..) con el acceso especifico al codigo fuente (tipo include de java)
   # es posible usar el acceso especifico $value, pero no afecta; funciona igual. En la interfaz

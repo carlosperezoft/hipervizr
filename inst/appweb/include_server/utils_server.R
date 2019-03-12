@@ -5,7 +5,7 @@
 ## Cargar las funciones del paquete hipervizr a ser usadas en el BACKEND de la app Shiny-WEB:
 #
 # Carga de datos base para la hipercarta y el detalle de cada id_t en la respectiva carta de control:
-hiperCartaData <- read_excel("C:\\Temp\\Hipercarta_BASE_Maestro.xlsx")
+hiperCartaData <- read_excel("C:\\Temp\\Hipercarta_BASE_96_Maestro.xlsx")
 #
-cartaControlData <- read_excel("C:\\Temp\\Datos_Carta_Control_Detalle.xlsx")
+cartaControlData <- read_excel("C:\\Temp\\Datos_Carta_Control_96_Detalle.xlsx")
 #
