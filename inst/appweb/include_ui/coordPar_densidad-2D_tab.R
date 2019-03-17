@@ -18,7 +18,7 @@ tabItem(tabName="coordPar_densidad-2DTab",
       ),
      navbarMenu("Distribuci\u00F3n",
         tabPanel("Viol\u00EDn", icon = icon("thumbs-up", lib = "glyphicon"),
-           helpText("An\u00E1lisis por medio del esquema Viol\u00EDn"),
+           helpText("An\u00E1lisis por medio del esquema Viol\u00EDn. Se usa una media a la vez debido a la diferencia entre escalas."),
            dropdownButton(inputId = "violinMedidaOpsBtn",
               tags$h4("Opciones de Presentaci\u00F3n:"),
               selectInput("violinMediaHiper", label = "Hipercarta", width="220px", # Para ajutar el ancho del Select!
@@ -33,7 +33,7 @@ tabItem(tabName="coordPar_densidad-2DTab",
            plotlyOutput("violinDensidadPlot", width = "100%", height = "500px") %>% withSpinner(type=5, color="cadetblue")
         ),
         tabPanel("Distribuci\u00F3n de Densidad", icon = shiny::icon("stats", lib = "glyphicon"),
-           helpText("Formas de distribuci\u00F3n para las medias (suavizado)"),
+           helpText("Distribuci\u00F3n para las medias (suavizado).Se usa una media a la vez debido a la diferencia entre escalas."),
            dropdownButton(inputId = "densidadMedidaOpsBtn",
               tags$h4("Opciones de Presentaci\u00F3n:"),
               selectInput("densidadMediaHiper", label = "Hipercarta", width="220px", # Para ajutar el ancho del Select!

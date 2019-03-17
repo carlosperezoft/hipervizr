@@ -2,27 +2,6 @@
 # carlos.perez7@udea.edu.co
 # 01/02/2019 9:26:08 a. m.
 #
-# cartaControlData <- eventReactive(input$loadDatosCartaButton, {
-#    ccData <- read_excel("C:\\Temp\\Datos_Carta_Control_Detalle.xlsx")
-#    return(ccData)
-# })
-#
-output$dySerieFrom <- renderText({
-  req(input$serieConductPlot_date_window[[1]])
-})
-#
-output$dySerieTo <- renderText({
-  req(input$serieConductPlot_date_window[[2]])
-})
-#
-output$dySerieClicked <- renderText({
-  req(input$serieConductPlot_click$x)
-})
-#
-output$dySeriePoint <- renderText({
-  paste0('X = ', req(input$serieConductPlot_click$x_closest_point),
-         '; Y = ', req(input$serieConductPlot_click$y_closest_point))
-})
 #
 output$serieConductPlot <- renderDygraph({
   dsBase <- hiperCartaData
@@ -40,14 +19,15 @@ output$serieConductPlot <- renderDygraph({
   gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: Conductividad",
                     xlab="id_t", ylab="Conductividad", group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
-               dyOptions(drawGrid=input$showgrid, drawPoints=TRUE, pointSize=2, pointShape="dot", fillGraph = TRUE) %>%
+               dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea,
+                         drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Conductividad")
   }
-  if(!input$showgrid) {
-     gSerie <- gSerie %>% dyCrosshair() # %>%  dyOptions(fillGraph = TRUE)
+  if(!input$mosaicoShowGrid) {
+     gSerie <- gSerie %>% dyCrosshair()
   }
   #
   return(gSerie)
@@ -66,13 +46,14 @@ output$seriePHPlot <- renderDygraph({
   gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: PH",
                     xlab="id_t", ylab="PH", group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
-               dyOptions(drawGrid=input$showgrid, drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
+               dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea,
+                         drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "PH")
   }
-  if(!input$showgrid) {
+  if(!input$mosaicoShowGrid) {
      gSerie <- gSerie %>% dyCrosshair()
   }
   #
@@ -92,14 +73,14 @@ output$serieODPlot <- renderDygraph({
   gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: OD",
                     xlab="id_t", ylab="OD", group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
-               dyOptions(drawGrid=input$showgrid, drawPoints=TRUE, pointSize=2,
+               dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea, drawPoints=TRUE, pointSize=2,
                          colors = RColorBrewer::brewer.pal(3, "Set1"), pointShape="dot") %>%
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "OD")
   }
-  if(!input$showgrid) {
+  if(!input$mosaicoShowGrid) {
      gSerie <- gSerie %>% dyCrosshair()
   }
   #
@@ -119,14 +100,14 @@ output$serieTurbPlot <- renderDygraph({
   gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: Turbiedad",
                     xlab="id_t", ylab="Turbiedad", group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
-               dyOptions(drawGrid=input$showgrid, drawPoints=TRUE, pointSize=2,
+               dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea, drawPoints=TRUE, pointSize=2,
                          colors = RColorBrewer::brewer.pal(3, "Dark2"), pointShape="dot") %>%
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Turbiedad")
   }
-  if(!input$showgrid) {
+  if(!input$mosaicoShowGrid) {
      gSerie <- gSerie %>% dyCrosshair()
   }
   #
@@ -146,14 +127,14 @@ output$seriePotRedoxPlot <- renderDygraph({
   gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: POT REDOX",
                     xlab="id_t", ylab="POT REDOX", group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
-               dyOptions(drawGrid=input$showgrid, drawPoints=TRUE, pointSize=2,
+               dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea, drawPoints=TRUE, pointSize=2,
                          colors = RColorBrewer::brewer.pal(3, "Dark2"), pointShape="dot") %>%
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "POT REDOX")
   }
-  if(!input$showgrid) {
+  if(!input$mosaicoShowGrid) {
      gSerie <- gSerie %>% dyCrosshair()
   }
   #
@@ -173,14 +154,14 @@ output$serieTemperaPlot <- renderDygraph({
   gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: Temperatura",
                     xlab="id_t", ylab="Temperatura", group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
-               dyOptions(drawGrid=input$showgrid, drawPoints=TRUE, pointSize=2,
+               dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea, drawPoints=TRUE, pointSize=2,
                          colors = RColorBrewer::brewer.pal(3, "Dark2"), pointShape="dot") %>%
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Temperatura")
   }
-  if(!input$showgrid) {
+  if(!input$mosaicoShowGrid) {
      gSerie <- gSerie %>% dyCrosshair()
   }
   #
@@ -192,21 +173,31 @@ output$serieTemperaPlot <- renderDygraph({
 output$hipercartaBasePlot <- renderDygraph({
   dsBase <- hiperCartaData
   req(dsBase)
+  #
+  hiperSel <- input$hipercartaBaseSel
+  hiperParams <- switch(hiperSel,
+     "CONDUCTIVIDAD" = c("id_t", "LI_Condu", "MEDIA_Condu", "LS_Condu"),
+     "PH" = c("id_t", "LI_ph", "MEDIA_ph", "LS_ph"),
+     "OD" = c("id_t", "LI_od", "MEDIA_od", "LS_od"),
+     "TURBIEDAD" = c("id_t", "LI_turb", "MEDIA_turb", "LS_turb"),
+     "TEMPERATURA" = c("id_t", "LI_tempera", "MEDIA_tempera", "LS_tempera")
+  )
+  #
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
-  dataSerie <- dsBase[c("id_t", "LI_Condu", "MEDIA_Condu", "LS_Condu")]
+  dataSerie <- dsBase[hiperParams]
   #
   if(input$ccTipoCarta == "Intervalo de Confianza") {
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Conductividad",
-                    xlab="id_t hipercarta", ylab="Conductividad") %>%
+  gSerie <- dygraph(dataSerie, main=hiperSel,
+                    xlab=paste("t por Hipercarta"), ylab=paste("Intervalo para:", hiperSel)) %>%
                dyRangeSelector() %>% dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$ccShowgridCheck, drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
-               dyLegend(width = 500)
+               dyLegend(width=500)
   #
   if(input$ccTipoCarta == "Intervalo de Confianza") {
-     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Media Conductividad")
+     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label=paste("Media", hiperSel) )
   }
   if(!input$ccShowgridCheck) {
      gSerie <- gSerie %>% dyCrosshair()
@@ -219,10 +210,27 @@ output$cartaControlDetallePlot <- renderDygraph({
   req(cartaControlData)
   req(input$hipercartaBasePlot_click$x)
   #
+  hiperSel <- input$hipercartaBaseSel
+  hiperParams <- switch(hiperSel,
+     "CONDUCTIVIDAD" = c("LI_Condu", "MEDIA_Condu", "LS_Condu"),
+     "PH" = c("LI_ph", "MEDIA_ph", "LS_ph"),
+     "OD" = c("LI_od", "MEDIA_od", "LS_od"),
+     "TURBIEDAD" = c("LI_turb", "MEDIA_turb", "LS_turb"),
+     "TEMPERATURA" = c("LI_tempera", "MEDIA_tempera", "LS_tempera")
+  )
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- cartaControlData %>%
                filter(id_t == input$hipercartaBasePlot_click$x) %>%
-               select("CONDUCTIVIDAD", "TIPO_DIA", "MES", "DIA_SEMANA")
+               select(hiperSel, "TIPO_DIA", "MES", "DIA_SEMANA")
+  #
+  # Se procede a calcular la hora del T-subj seleccionado:
+  dataHipercartaTime <- cartaControlData %>%
+               filter(id_t == input$hipercartaBasePlot_click$x) %>%
+               select("id_t", "HORA_PARCIAL", "SEXTO")
+  #
+  # La primera es util, pues todas tienen el mismo valor para las cols seleccionadas:
+  dataHipercartaTime <- dataHipercartaTime[1,]
+  horaT <- paste0(dataHipercartaTime[1, "HORA_PARCIAL"], ":", 10*(as.numeric(dataHipercartaTime[1, "SEXTO"])-1))
   #
   if(input$ccTipoDia != 0) {
      dataSerie <- dataSerie %>% filter(TIPO_DIA == input$ccTipoDia)
@@ -243,31 +251,31 @@ output$cartaControlDetallePlot <- renderDygraph({
   #
   hcIntervalo <- hiperCartaData %>%
                  filter(id_t == input$hipercartaBasePlot_click$x) %>%
-                 select("LI_Condu", "MEDIA_Condu", "LS_Condu")
+                 select(hiperParams)
   #
   # Finalmente se deja la columna efectiva para la serie:
-  dataSerie <- dataSerie %>% select("CONDUCTIVIDAD")
+  dataSerie <- dataSerie %>% select(hiperSel)
   # Se adiciona explicitamente la columna el numero de fila como "row_id":
   dataSerie$row_id <- seq(1:(nrow(dataSerie)))
   # Reordenamiento de las columnas del data_frame para que el row_id sea la primera
   # que el "dygraph" lo usa para el eje X:
-  dataSerie <- dataSerie[c("row_id", "CONDUCTIVIDAD")]
+  dataSerie <- dataSerie[c("row_id", hiperSel)]
   #
-  gSerie <- dygraph(dataSerie, main = "Conductividad",
-                    xlab=paste("Observaciones id_t =", input$hipercartaBasePlot_click$x),
-                    ylab="Conductividad Medido") %>%
+  gSerie <- dygraph(dataSerie, main = paste(hiperSel, "t =", horaT),
+                    xlab=paste("Observaciones t =", input$hipercartaBasePlot_click$x, "[", horaT, "]"),
+                    ylab=paste("Monitoreo de:", hiperSel)) %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$ccShowgridCheck, drawPoints=TRUE, pointSize=2, fillGraph = TRUE,
-                         axisLineColor = "navy", gridLineColor = "lightblue", pointShape="ex") %>%
-               dySeries("CONDUCTIVIDAD", label = "Valor Puntual CONDUCTIVIDAD", color = "blue") %>% # Usar un label especifico
-               dyLimit(as.numeric(hcIntervalo["LI_Condu"]), color = "red",
-                       label = as.character(hcIntervalo["LI_Condu"])) %>%
-               dyLimit(as.numeric(hcIntervalo["MEDIA_Condu"]), color = "red",
-                       label = as.character(hcIntervalo["MEDIA_Condu"]), labelLoc = "right") %>% # left
-               dyLimit(as.numeric(hcIntervalo["LS_Condu"]), color = "red",
-                       label = as.character(hcIntervalo["LS_Condu"])) %>%
-               dyShading(from = as.numeric(hcIntervalo["LI_Condu"]),
-                         to = as.numeric(hcIntervalo["LS_Condu"]), axis = "y") %>%
+                         includeZero = input$cartaCShowCero, axisLineColor = "navy", gridLineColor = "lightblue", pointShape="ex") %>%
+               dySeries(hiperSel, label=paste("Valor Puntual", hiperSel), color = "blue") %>% # Usar un label especifico
+               dyLimit(as.numeric(hcIntervalo[hiperParams[1]]), color = "red",
+                       label = as.character(hcIntervalo[hiperParams[1]])) %>%  # hiperParams se usa un indice por ser (c)Vector
+               dyLimit(as.numeric(hcIntervalo[hiperParams[2]]), color = "red",
+                       label = as.character(hcIntervalo[hiperParams[2]]), labelLoc = "right") %>% # left
+               dyLimit(as.numeric(hcIntervalo[hiperParams[3]]), color = "red",
+                       label = as.character(hcIntervalo[hiperParams[3]])) %>%
+               dyShading(from = as.numeric(hcIntervalo[hiperParams[1]]),
+                         to = as.numeric(hcIntervalo[hiperParams[3]]), axis = "y") %>%
                dyLegend(width = 500)
   #
   if(!input$ccShowgridCheck) {

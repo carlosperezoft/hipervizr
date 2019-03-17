@@ -16,7 +16,6 @@ suppressPackageStartupMessages({
   library(shinyhelper, quietly=TRUE)
   library(markdown, quietly=TRUE)
   library(htmlwidgets, quietly=TRUE)
-  library(DT, quietly=TRUE)
   library(dplyr, quietly=TRUE)
   library(reshape2, quietly=TRUE)
   library(RColorBrewer, quietly=TRUE)
@@ -25,7 +24,6 @@ suppressPackageStartupMessages({
   library(ggplot2, quietly=TRUE)
   library(parcoords, quietly=TRUE)
   library(dygraphs, quietly=TRUE)
-  library(forecast, quietly=TRUE) ## quitar cuando no se use el mosaico plotly
   library(readxl, quietly=TRUE)
 })
 #

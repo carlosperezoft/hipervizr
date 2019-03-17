@@ -49,9 +49,10 @@ output$distribucionDensidadPlot <- renderPlotly({
   melt_data <- melt(dataSerie, id = "id_t", variable.name = "variable", value.name = "media")
   # alpha: 0.2 (colores claros) / 0.55 (colores intermedios),
   # es el parametro para el nivel de transparencia de las densidades presentadas:
-  ggp <- ggplot(melt_data, aes(x = media, group = variable, fill = variable)) + geom_density(alpha=0.55)  +
+  ggp <- ggplot(melt_data, aes(x = media, group = variable, fill = variable)) + geom_density(alpha=0.55) +
+                 labs(title = input$densidadMediaHiper, x = "Valor MEDIA", y = "Densidad") +
                  theme(
-                   legend.position='none'
+                   legend.position="none"
                  )
   # Se usa el objeto "ggp" para una invocacion mas limpia...
   ggplotly(ggp)

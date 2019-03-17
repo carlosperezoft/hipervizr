@@ -9,21 +9,25 @@
 tabItem(tabName = "cartaControlDetalleTab",
   h2("Hipercarta con detalle de Cartas de Control."),
   wellPanel(style = "background: white",
-     helpText("Clic y arrastrar para zoom in (doble clic para restaurar)."),
+     helpText("Clic y arrastrar para zoom in (doble clic para restaurar). Se usa una Hipercarta a la vez debido a la diferencia entre escalas."),
      # UTIL: El uso de box(..) evita mayor parametrizacion en el layout "fluidRow":
      fluidRow(
-        box(title = "Hipercarta (General)", status = "primary", solidHeader = TRUE, collapsible = TRUE,
+        box(title = "Hipercarta (General)", status = "success", solidHeader = TRUE, collapsible = TRUE, width = 12,
           dropdownButton(tags$h3("Ajustes Hipercarta"),
-             selectInput("ccTipoCarta", label = "Tipo de Serie a Presentar", width="220px", # Para ajutar el ancho del Select!
+             selectInput("hipercartaBaseSel", label = "Hipercarta", width="220px", # Para ajutar el ancho del Select!
+                     choices=c("CONDUCTIVIDAD", "PH", "OD", "TURBIEDAD", "TEMPERATURA"),
+                     selected="CONDUCTIVIDAD"),
+             selectInput("ccTipoCarta", label = "Presentar como", width="220px", # Para ajutar el ancho del Select!
                   choices = c("Cada Serie Independiente", "Intervalo de Confianza"),
                   selected = "Intervalo de Confianza"),
              checkboxInput("ccShowgridCheck", label = "Usar Grid", value = FALSE),
+             tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
              circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
              size = "xs", tooltip = tooltipOptions(title = "Ajustes Hipercarta...")
            ),
            dygraphOutput("hipercartaBasePlot", width = "100%", height = "450") %>% withSpinner(type=4, color="cadetblue")
         ),
-        box(title = "Carta de Control (Detalle)", status = "success", solidHeader = TRUE, collapsible = TRUE,
+        box(title = "Carta de Control (Detalle)", status = "primary", solidHeader = TRUE, collapsible = TRUE,  width = 12,
            dropdownButton(tags$h3("Ajustes Carta"),
              # Nota: En el listado de choices se usa una lista c("label"=id). En el server el input entrega el id.
              selectInput("ccTipoDia", label = "Tipo de D\u00EDa", width="220px", # Para ajutar el ancho del Select!
@@ -37,6 +41,8 @@ tabItem(tabName = "cartaControlDetalleTab",
                   choices = c("Todos"=0, "Lunes"=1, "Martes"=2, "Mi\u00E9rcoles"=3,
                                          "Jueves"=4, "Viernes"=5, "S\u00E1bado"=6, "Domingo"=7),
                   selected = 0),
+             checkboxInput("cartaCShowCero", label = "Incluir el cero en eje Y", value = FALSE),
+             tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
              circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
              size = "xs", tooltip = tooltipOptions(title = "Ajustes Carta de Control...")
            ),
