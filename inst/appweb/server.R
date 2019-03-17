@@ -24,26 +24,16 @@ shinyServer(function(input, output, session) {
 
   ## ELEMENTOS DE AYUDA:
   output$basicsHelpText <- renderText( # La funcion renderText entrega el texto HTML, renderPrint tambien aplica
-    paste0(tags$b("Autor:"), # la funcion paste0, concatena cada renglon, sin espacios entre cada cadena
-       br(), "Carlos Alberto Pérez Moncada",
-       br(), tags$b("Correo electr\u00F3nico:"),
-       br(), tags$a("carlos.perez7@udea.edu.co", # NO usar el atributo "title="impide que se active el link!
-                    href= "https://www.linkedin.com/in/carlos-alberto-perez-moncada-07b6b630/",
-                    target="_blank",icon("linkedin-square", "fa-2x")), br(),
-       br(), tags$b("Director del Proyecto: Juan Delgado Lastra"),
-       br(), tags$b("Programa: Maestría en Ingeniería con énfasis en Informática"),
-       hr(), tags$a(tags$b("AYUDA localhost..."), # NO usar el atributo "title="impide que se active el link!
-                    href = "/ayuda/rmarkdown_test.html", target = "_blank",
-                    # NO usar el atributo "icon=" explicitamente, impide que se active el icono!
-                    icon("question-circle")),
-       br() # Es necesario agregar un elemento HTML final para que el link sea presentado!
+    paste0(tags$b("Proyecto:"),
+       br(), "Red R\u00EDo",
+       br(), tags$b("Facultad de Ingenier\u00EDa"),
+       br(), "* Copyright \u00A9 2019 U. de A. *",
+       hr(), img(src = "images/UdeA_Escudo.jpg"),
+       hr(), "Estaciones en Tiempo Real",
+       br(), "Red de monitoreo ambiental en la cuenca hidrogr\u00E1fica del R\u00EDo Aburr\u00E1 Medell\u00EDn"
     )
   )
   ## FIN AYUDA
-
-  # Elementos graficos en PLOTLY JS (GGPLOT2)
-  source('include_server/mosaico_plotly_server.R', local=TRUE)
-  # FIN QGRAPH
 
   # FINALIZACION DE SESION WEB ----------------------------------------------
   # Finaliza la ejecucion de la APP en R-Studio al cerrar la Ventana PPAL:

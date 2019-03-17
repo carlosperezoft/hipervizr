@@ -6,8 +6,8 @@
 # de procesamiento de R-Studio y Shiny generan error de ejecucion y/o compilacion
 # ***
 #
-tabItem(tabName = "cartaControlDetalle",
-  h2("Hiper Carta con detalle de Cartas de Control [Estaciones de Medici\u00F3n]"),
+tabItem(tabName = "cartaControlDetalleTab",
+  h2("Hipercarta con detalle de Cartas de Control."),
   wellPanel(style = "background: white",
      helpText("Clic y arrastrar para zoom in (doble clic para restaurar)."),
      # UTIL: El uso de box(..) evita mayor parametrizacion en el layout "fluidRow":
@@ -24,7 +24,7 @@ tabItem(tabName = "cartaControlDetalle",
            dygraphOutput("hipercartaBasePlot", width = "100%", height = "450") %>% withSpinner(type=4, color="cadetblue")
         ),
         box(title = "Carta de Control (Detalle)", status = "success", solidHeader = TRUE, collapsible = TRUE,
-           dropdownButton(tags$h3("Ajustes Carta de Control"),
+           dropdownButton(tags$h3("Ajustes Carta"),
              # Nota: En el listado de choices se usa una lista c("label"=id). En el server el input entrega el id.
              selectInput("ccTipoDia", label = "Tipo de D\u00EDa", width="220px", # Para ajutar el ancho del Select!
                   choices = c("Todos"=0, "T\u00EDpico Laboral"=1, "S\u00E1bado"=2, "Domingo-Festivo"=3),
@@ -40,7 +40,7 @@ tabItem(tabName = "cartaControlDetalle",
              circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
              size = "xs", tooltip = tooltipOptions(title = "Ajustes Carta de Control...")
            ),
-           dygraphOutput("cartaControlSSTPlot", width = "100%", height = "450") %>% withSpinner(type=5, color="cadetblue")
+           dygraphOutput("cartaControlDetallePlot", width = "100%", height = "450") %>% withSpinner(type=5, color="cadetblue")
        )
      ) # end fluidrow
   )

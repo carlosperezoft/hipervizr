@@ -6,18 +6,20 @@
 # de procesamiento de R-Studio y Shiny generan error de ejecucion y/o compilacion
 # ***
 #
-tabItem(tabName = "hipercartaMaestro",
-  h2("Cartas Variable-Total-Variable [Hipercarta]"),
+tabItem(tabName = "hipercartaMaestroTab",
+  h2("Hipercartas para las Variables de an\u00E1lisis"),
   wellPanel(style = "background: white",
      helpText("Clic y arrastrar para zoom in (doble clic para restaurar)."),
      fluidRow(
         column(width = 6, # 6 columnas por cada grafico, de 12 disponibles. Asi queda tipo mosaico 2x2.
-          dygraphOutput("serieBaseHiperPlot") %>% withSpinner(type=4, color="cadetblue"),
-          dygraphOutput("serieSSTHiperPlot") %>% withSpinner(type=5, color="cadetblue")
+          dygraphOutput("serieConductPlot") %>% withSpinner(type=4, color="cadetblue"),
+          dygraphOutput("seriePHPlot") %>% withSpinner(type=5, color="cadetblue"),
+          dygraphOutput("seriePotRedoxPlot") %>% withSpinner(type=4, color="cadetblue")
         ),
         column(width = 6, # Usar 12 para visualizar todas de forma vertical. O quitar el fluidRow/column.
-          dygraphOutput("serieConductHiperPlot") %>% withSpinner(type=4, color="cadetblue"),
-          dygraphOutput("serieTemperaHiperPlot") %>% withSpinner(type=5, color="cadetblue")
+          dygraphOutput("serieODPlot") %>% withSpinner(type=4, color="cadetblue"),
+          dygraphOutput("serieTurbPlot") %>% withSpinner(type=5, color="cadetblue"),
+          dygraphOutput("serieTemperaPlot") %>% withSpinner(type=5, color="cadetblue")
         )
      ) # end fluidrow
   ),
@@ -29,11 +31,11 @@ tabItem(tabName = "hipercartaMaestro",
                      selected = "Intervalo de Confianza"),
          checkboxInput("showgrid", label = "Usar Grid", value = TRUE)
        ),
-       box(title = "Opciones Hipercarta", status = "success", solidHeader = TRUE, collapsible = TRUE,
+       box(title = "Opciones Hipercarta Conductividad (EN PRUEBA)", status = "success", solidHeader = TRUE, collapsible = TRUE,
          div(strong("Desde: "), textOutput("dySerieFrom", inline = TRUE)),
          div(strong("Hasta: "), textOutput("dySerieTo", inline = TRUE)),
          div(strong("t-seleccionado: "), textOutput("dySerieClicked", inline = TRUE)),
-         div(strong("SST_tr Punto Seleccionado: "), textOutput("dySeriePoint", inline = TRUE))
+         div(strong("Punto Seleccionado: "), textOutput("dySeriePoint", inline = TRUE))
        )
     ) # end fluidRow
   )

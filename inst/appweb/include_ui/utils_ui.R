@@ -12,12 +12,10 @@ msgHelpMenu <- dropdownMenu(
   type = "notifications",
   icon = icon("question-circle"),
   badgeStatus = NULL,
-  headerText = "AYUDA GENERAL HIPERVIZ R:",
+  headerText = "AYUDA GENERAL HIPERVIZ-R:",
 
-  notificationItem("AYUDA LOCALHOST", icon = icon("file"),
-        href = "javascript:window.open('/ayuda/rmarkdown_test.html', '_blank')"),
-  notificationItem("shinydashboard, Estructura UTIL!", icon = icon("desktop"),
-        href = "javascript:window.open('https://rstudio.github.io/shinydashboard/structure.html', '_blank')"),
+  notificationItem("Gu\u00EDa de Uso", icon = icon("question-circle"),
+        href = "javascript:window.open('/ayuda/hipervizr-intro.html', '_blank')"),
   notificationItem("SALIR...", icon = icon("gear"),
                    href = "javascript:setTimeout(function(){window.close();},500);")
 

@@ -7,12 +7,12 @@ output$paralCoordsPlot <- renderParcoords({
   dsBase <- hiperCartaData
   req(dsBase)
   #
-  dataSerie <- dsBase[c("id_t", "Media_SST_tr", "Media_SST", "Media_Conduct", "Media_Tempera")]
+  dataSerie <- dsBase[c("id_t", "MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")]
   #
   pc <- parcoords(reorderable=TRUE,
      dataSerie,  # order columns so species first
-     rownames=F,
-     brushMode="1d",
+     rownames=FALSE, width=NULL, autoresize=TRUE,
+     brushMode="1d", alphaOnBrushed=0.1, alpha=1.0, # alpha-->intensidad del color de las lineas, de 0 a 1.
      color = list(
        colorScale = htmlwidgets::JS(sprintf(
          'd3.scale.ordinal().range(%s).domain(%s)'
@@ -28,7 +28,7 @@ output$violinDensidadPlot <- renderPlotly({
   dsBase <- hiperCartaData
   req(dsBase)
   #
-  dataSerie <- dsBase[c("id_t", "Media_SST_tr", "Media_SST", "Media_Conduct", "Media_Tempera")]
+  dataSerie <- dsBase[c("id_t", input$violinMediaHiper)]
   #
   melt_data <- melt(dataSerie,id="id_t", variable.name="variable", value.name="media")
   #
@@ -44,12 +44,15 @@ output$distribucionDensidadPlot <- renderPlotly({
   dsBase <- hiperCartaData
   req(dsBase)
   #
-  dataSerie <- dsBase[c("id_t", "Media_SST_tr", "Media_SST", "Media_Conduct", "Media_Tempera")]
+  dataSerie <- dsBase[c("id_t", input$densidadMediaHiper)]
   #
   melt_data <- melt(dataSerie, id = "id_t", variable.name = "variable", value.name = "media")
   # alpha: 0.2 (colores claros) / 0.55 (colores intermedios),
   # es el parametro para el nivel de transparencia de las densidades presentadas:
-  ggp <- ggplot(melt_data, aes(x = media, group = variable, fill = variable)) + geom_density(alpha=0.55)
+  ggp <- ggplot(melt_data, aes(x = media, group = variable, fill = variable)) + geom_density(alpha=0.55)  +
+                 theme(
+                   legend.position='none'
+                 )
   # Se usa el objeto "ggp" para una invocacion mas limpia...
   ggplotly(ggp)
 })

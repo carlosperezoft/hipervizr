@@ -27,32 +27,23 @@ sidebar <- dashboardSidebar(width = "250px",
   sidebarMenu(id = "sidebarMenu",
       menuItem("Inicio", tabName = "homeTab", icon = icon("credit-card"),
                badgeLabel = "HOME", badgeColor = "green", selected = TRUE ),
-      menuItem("An\u00E1lisis de Densidad", tabName = "coordPar_densidad-2D",
-               icon = shiny::icon("tasks"), badgeLabel = "2D", badgeColor = "red"),
-      # tabItem implementado en "hipercartaMaestro_tab.R":
-      menuItem("Hiper-trellis", tabName = "hipercartaMaestro",
-               icon = shiny::icon("stats", lib = "glyphicon"),
-               badgeLabel = "Mosaico", badgeColor = "orange"),
-      # tabItem implementado en "series_contenido_tab.R":
-      menuItem("Hipercarta", tabName = "cartaControlDetalle",
-               icon = icon("dashboard"), badgeLabel = "NUEVO", badgeColor = "blue"),
-
+      menuItem("An\u00E1lisis de Densidad", tabName = "coordPar_densidad-2DTab",
+               icon = shiny::icon("tasks"), badgeLabel = "2D", badgeColor = "orange"),
       # NOTA: el uso de los atributos "BADGE" no aplican en un "menuItem" con submenus
-      menuItem(text = "Secci\u00F3n EDA/EGA", icon = icon("thumbs-up", lib = "glyphicon"),
-               # NOTA: Los atributos "badgeLabel" y "badgeColor" NO aplican en un menuSubItem !
-               menuSubItem(text = "Mosaico-PLOTLY", tabName = "mosaicoPlotSubMTab", icon = icon("paint-brush"))
+      menuItem(text = "An\u00E1lisis Hipercartas", icon = shiny::icon("stats", lib = "glyphicon"),
+         # NOTA: Los atributos "badgeLabel" y "badgeColor" NO aplican en un menuSubItem !
+         menuSubItem(text = "Mosaico Principal", tabName = "hipercartaMaestroTab", icon = icon("paint-brush")),
+         menuSubItem(text = "Cartas de Control", tabName = "cartaControlDetalleTab", icon = icon("gear"))
       ),
       # NOTA: El uso de "href", es excluyente con el uso de "tabName" y de "subitems". Se debe usar uno de ellos.
       # El atributo "newtab" se utiliza para activar una nueva pestaña o popup al cargar el "href"
       menuItem("Ayuda localhost", icon = icon("question-circle"), badgeLabel = "HELP",
-               badgeColor = "purple", href = "/ayuda/rmarkdown_test.html", newtab = TRUE)
+               badgeColor = "purple", href = "/ayuda/hipervizr-intro.html", newtab = TRUE)
 
     ), # /FIN sidebarMenu
     br(),
-    tags$footer(tags$div(tags$b("* Carlos A. P\u00E9rez Moncada."),
-        a(href= "https://www.linkedin.com/in/carlos-alberto-perez-moncada-07b6b630/",
-                 target="_blank",icon("linkedin-square", "fa-2x")),
-        br(), "- GPLv3 Licence.", br(), "- Copyright \u00A9 2019 U. de A.", br(),
+    tags$footer(tags$div(tags$b("* Proyecto: Red R\u00EDo *"),
+        br(), "- GPLv3 Licence.", br(), "* Copyright \u00A9 2019 U. de A. *", br(),
         "- Medell\u00EDn - Colombia.", br(),
         tags$button(id = 'closeApp', type = "button", class = "btn action-button",
           onclick = "setTimeout(function(){window.close();},500);",
@@ -82,7 +73,6 @@ body <- dashboardBody(
     # ***
     source("include_ui/hipercartaMaestro_tab.R", local = TRUE)$value,
     source("include_ui/cartaControlDetalle_tab.R", local = TRUE)$value,
-    source("include_ui/submenu_mosaico_plotly.R", local = TRUE)$value,
     tabItem(tabName = "ayudaTab", href = "/ayuda/rmarkdown_test.html", newtab = TRUE)
   ) # /tabItems
 ) # /dashboardBody
