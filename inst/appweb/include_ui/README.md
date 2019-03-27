@@ -1,11 +1,12 @@
-# semviz.mockup
+## hiperviz-r Aplicaci&oacute;n Shiny Dashboard. v 1.0
+<a href="http://200.13.243.172:8080/proto2/" target="_blank">Red de monitoreo ambiental</a>
 
-The goal of semviz.mockup is to ...
+### Visualizaci&oacute;n de Hipercartas con sus respectivas cartas de control.
 
-## Example
+### HIPERVIZ-R <img src="images/UdeA_Escudo.jpg" align="right"/>
 
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-## basic example code
-```
+### Cr&eacute;ditos
+### Proyecto:
+- **Red R&iacute;o.**
+- **Facultad de Ingenier&iacute;a.**
+- **Copyright (c) 2019.**-<a href="http://www.udea.edu.co" target="_blank">Universidad de Antioquia</a>.

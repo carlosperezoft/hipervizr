@@ -1,11 +1,15 @@
 Package: hipervizr
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Dashboard para Hipercartas y Cartas de Control de Red Rio.
+Version: 1.0
+Date: 2019-3-27
+Authors@R: c(
+    person("Carlos Alberto", "Perez Moncada", , "carlos.perez7@udea.edu.co", c("aut", "cre")),
+    person(family = "Facultad de Ingenieria. Universidad de Antioquia.", role = "cph")
+    )    
+Description: Dashboard para Hipercartas y Cartas de Control de Red Rio.
+Depends:
+    R (>= 3.4.0)
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true

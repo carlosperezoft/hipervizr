@@ -1,7 +1,7 @@
 # hipervizr
 
-Paquete de pruebas en R-Shiny para el proyecto de investigacion de
-Analisis de Series de tiempo, usando las mediciones de estaciones alrededor
+Paquete de visualizacion en R-Shiny para el proyecto de investigacion de
+Analisis de Hipercartas, usando las mediciones de estaciones alrededor
 del rio Medellin (Antioquia-Colombia).
 
 ## Example
