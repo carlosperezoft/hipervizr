@@ -25,14 +25,14 @@ sidebar <- dashboardSidebar(width = "250px",
   #       light-blue, green, navy, teal, olive, lime, orange, fuchsia, purple, maroon, black.
   #
   sidebarMenu(id = "sidebarMenu",
-      menuItem("Inicio", tabName = "homeTab", icon = icon("credit-card"),
+      menuItem("Inicio", tabName = "homeTab", icon = icon("home"),
                badgeLabel = "HOME", badgeColor = "green", selected = TRUE ),
-      menuItem("An\u00E1lisis de Densidad", tabName = "coordPar_densidad-2DTab",
-               icon = shiny::icon("tasks"), badgeLabel = "2D", badgeColor = "orange"),
+      menuItem("An\u00E1lisis Descriptivo", tabName = "coordPar_densidad-2DTab",
+               icon = shiny::icon("edit"), badgeLabel = "2D", badgeColor = "orange"),
       # NOTA: el uso de los atributos "BADGE" no aplican en un "menuItem" con submenus
       menuItem(text = "An\u00E1lisis Hipercartas", icon = shiny::icon("stats", lib = "glyphicon"),
          # NOTA: Los atributos "badgeLabel" y "badgeColor" NO aplican en un menuSubItem !
-         menuSubItem(text = "Mosaico Principal", tabName = "hipercartaMaestroTab", icon = icon("paint-brush")),
+         menuSubItem(text = "Mosaico Principal", tabName = "hipercartaMaestroTab", icon = icon("cube")),
          menuSubItem(text = "Cartas de Control", tabName = "cartaControlDetalleTab", icon = icon("gear"))
       ),
       # NOTA: El uso de "href", es excluyente con el uso de "tabName" y de "subitems". Se debe usar uno de ellos.
@@ -48,7 +48,7 @@ sidebar <- dashboardSidebar(width = "250px",
         tags$button(id = 'closeApp', type = "button", class = "btn action-button",
           onclick = "setTimeout(function(){window.close();},500);",
           # close browser
-          "SALIR..."
+          tags$b("..SALIR..")
         )
     ) # FIN DIV
   ) # FIN FOOTER

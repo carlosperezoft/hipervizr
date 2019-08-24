@@ -107,3 +107,21 @@ output$contornosDensidadPlot <- renderPlotly({
   ggplotly(ggp)
 })
 #
+output$disperRegrePlot <- renderPlotly({
+  dsBase <- hiperCartaData
+  req(dsBase)
+  #
+  cast_data <- dsBase[c("id_t", input$disperRegreMediaHiper)]
+  #
+  scatPlot <- ggplot(cast_data,
+                     aes_string(x=colnames(cast_data)[1], y=colnames(cast_data)[2], color=colnames(cast_data)[2])) +
+    labs(x = "Fila.id_t", y = paste("Variable:", colnames(cast_data)[2])) +
+    geom_point() + geom_rug(col="steelblue", alpha=0.5, size=1.5) +
+    # al usar poly(..) se tiene una curva con mejor ajuste en el smooth:
+    geom_smooth(method=lm , formula = y ~ poly(x, 4), color="red", se=TRUE) +
+    scale_colour_gradient(low = "blue", high = "orange")
+  #
+  ggplotly(scatPlot)
+  #
+})
+#

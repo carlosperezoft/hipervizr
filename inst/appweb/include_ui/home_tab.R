@@ -1,9 +1,16 @@
 tabItem(tabName = "homeTab",
-  h2("hiperviz Aplicaci\u00F3n Shiny Dashboard. v 1.0"), # Este titulo es para la seccion completa
+  # Este titulo es para la seccion completa
+  h2("HIPERVIZ v 1.0: Visualizaci\u00F3n de Hipercartas con sus respectivas cartas de control"),
   fluidRow(
     tabBox(title = tagList(shiny::icon("gear"), "HOME -- INICIO"), # Este titulo es solo para el TABSET
-           width = "250px", height = "550px",
+           width = "250px", height = "650px",
         # Lista de TABs:
+        tabPanel(id="inicioTab", title = "INICIO",
+          tags$img(
+            src = "images/Creador-Energia-Biblioteca.jpg",
+            style = 'position: absolute'
+          )
+        ),
         tabPanel(id="acerdaDeTab", title = "ACERCA DE", # Tutilo solo para la pestaña del TAB Panel
           h2("Visualizaci\u00F3n de Hipercartas con sus respectivas cartas de control."),
           helpText(tags$b("Proyecto:"),
