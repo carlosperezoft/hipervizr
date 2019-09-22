@@ -24,6 +24,23 @@ output$paralCoordsPlot <- renderParcoords({
    )
 })
 #
+output$boxplotDensidadPlot <- renderPlotly({
+  dsBase <- hiperCartaData
+  req(dsBase)
+  #
+  dataSerie <- dsBase[c("id_t", input$boxplotMediaHiper)]
+  #
+  melt_data <- melt(dataSerie,id="id_t", variable.name="variable", value.name="media")
+  #
+  gpy <- melt_data %>%
+    plot_ly(x = ~variable, y = ~media, type = "box", boxpoints = "all", jitter=0.3, pointpos=0,
+            marker = list(color = 'rgba(219, 64, 82, 0.6)'), line = list(color = 'rgb(8,81,156)'),
+            boxmean = "sd" # Atributo que activa la presentación de la media y la desviacion estandar en el box-plot.
+    ) %>% layout(xaxis = list(title = "variable"), yaxis = list(title = "media", zeroline = T))
+   #
+   return(gpy)
+})
+#
 output$violinDensidadPlot <- renderPlotly({
   dsBase <- hiperCartaData
   req(dsBase)

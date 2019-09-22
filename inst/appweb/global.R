@@ -14,6 +14,7 @@ suppressPackageStartupMessages({
   library(shinycssloaders, quietly=TRUE)
   library(shinyWidgets, quietly=TRUE)
   library(shinyhelper, quietly=TRUE)
+  library(shinyBS, quietly=TRUE)
   library(markdown, quietly=TRUE)
   library(htmlwidgets, quietly=TRUE)
   library(dplyr, quietly=TRUE)

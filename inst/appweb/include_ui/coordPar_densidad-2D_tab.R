@@ -17,11 +17,13 @@ tabItem(tabName="coordPar_densidad-2DTab",
           )
       ),
      navbarMenu("Distribuci\u00F3n",
-        tabPanel("Viol\u00EDn", icon = icon("music", lib = "glyphicon"),
-           helpText("An\u00E1lisis por medio del esquema Viol\u00EDn. Se usa una media a la vez debido a la diferencia entre escalas."),
-           dropdownButton(inputId = "violinMedidaOpsBtn",
+        tabPanel("Box Plot", icon = icon("cube"),
+           helpText("An\u00E1lisis por medio del esquema Box-Plot. Se usa una media a la vez debido a la diferencia entre escalas."),
+           bsPopover(id="boxplotDensidadPlot", title="Box-Plot", placement = "top", trigger = "hover",
+                     content="Se presentan: los valores, la media y la desviaci\u00F3n est\u00E1ndar punteadas."),
+           dropdownButton(inputId = "boxplotMedidaOpsBtn",
               tags$h4("Opciones de Presentaci\u00F3n:"),
-              selectInput("violinMediaHiper", label = "Hipercarta", width="220px", # Para ajutar el ancho del Select!
+              selectInput("boxplotMediaHiper", label = "Hipercarta", width="220px", # Para ajutar el ancho del Select!
                      choices=c("Conductividad"="MEDIA_Condu", "PH"="MEDIA_ph",
                                "OD"="MEDIA_od", "Turbiedad"="MEDIA_turb",
                                "POT_REDOX"="MEDIA_pot_redox", "Temperatura"="MEDIA_tempera"),
@@ -30,7 +32,7 @@ tabItem(tabName="coordPar_densidad-2DTab",
               circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
               size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
            ),
-           plotlyOutput("violinDensidadPlot", width = "100%", height = "500px") %>% withSpinner(type=5, color="cadetblue")
+           plotlyOutput("boxplotDensidadPlot", width = "100%", height = "500px") %>% withSpinner(type=5, color="cadetblue")
         ),
         tabPanel("Distribuci\u00F3n de Densidad", icon = shiny::icon("stats", lib = "glyphicon"),
            helpText("Distribuci\u00F3n de Densidad para las medias (suavizado).Se usa una media a la vez debido a la diferencia entre escalas."),
@@ -61,6 +63,21 @@ tabItem(tabName="coordPar_densidad-2DTab",
               size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
            ),
            plotlyOutput("disperRegrePlot", width = "100%", height = "500px") %>% withSpinner(type=5, color="cadetblue")
+        ),
+        tabPanel("Viol\u00EDn", icon = icon("music", lib = "glyphicon"),
+           helpText("An\u00E1lisis por medio del esquema Viol\u00EDn. Se usa una media a la vez debido a la diferencia entre escalas."),
+           dropdownButton(inputId = "violinMedidaOpsBtn",
+              tags$h4("Opciones de Presentaci\u00F3n:"),
+              selectInput("violinMediaHiper", label = "Hipercarta", width="220px", # Para ajutar el ancho del Select!
+                     choices=c("Conductividad"="MEDIA_Condu", "PH"="MEDIA_ph",
+                               "OD"="MEDIA_od", "Turbiedad"="MEDIA_turb",
+                               "POT_REDOX"="MEDIA_pot_redox", "Temperatura"="MEDIA_tempera"),
+                     selected="MEDIA_Condu"),
+              tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
+              circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
+              size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
+           ),
+           plotlyOutput("violinDensidadPlot", width = "100%", height = "500px") %>% withSpinner(type=5, color="cadetblue")
         )
      ),
      tabPanel("Contornos", icon = icon("paperclip"),
