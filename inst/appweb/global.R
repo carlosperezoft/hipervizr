@@ -26,6 +26,8 @@ suppressPackageStartupMessages({
   library(parcoords, quietly=TRUE)
   library(dygraphs, quietly=TRUE)
   library(readxl, quietly=TRUE)
+  library(corrplot, quietly=TRUE)
+  library(qgraph, quietly=TRUE)
 })
 #
 ## Cargar las funciones propias del paquete semviz ubicadas en /R dir base:

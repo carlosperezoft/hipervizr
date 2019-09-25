@@ -104,6 +104,43 @@ tabItem(tabName="coordPar_densidad-2DTab",
           size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
         ),
         plotlyOutput("contornosDensidadPlot", width = "100%", height = "500px") %>% withSpinner(type=4, color="cadetblue")
+     ),
+     navbarMenu("Correlaci\u00F3n",
+        tabPanel("Correlograma", icon = icon("th-large"),
+           helpText("An\u00E1lisis por medio de Correlograma."),
+           dropdownButton(inputId = "correlogramaOpsBtn",
+              tags$h4("Opciones de Presentaci\u00F3n:"),
+              selectInput(inputId = 'correlogramaMethod', label = 'Estilo de Representaci\u00F3n',
+                 choices = c("C\u00EDrculo"="circle","Cuadrado"="square",
+                    "Elipse"="ellipse","Num\u00E9rico"="number","Torta"="pie"),
+                 selected = "circle"),
+              selectInput(inputId = 'correlogramaSection', label = 'Ver Secci\u00F3n',
+                 choices = c("Completo"="full","Inferior"="lower","Superior"="upper"), selected = "upper"),
+              tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
+              circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
+              size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
+           ),
+           # IMPORTANTE: corrplot genera un grafico estandar para el cual plotly no tiene WRAPPER...
+           plotOutput("correlogramaPlotOut", width = "100%", height = "500") %>% withSpinner(type=5, color="cadetblue")
+        ),
+        tabPanel("Red de Correlaci\u00F3n",icon = icon("connectdevelop"),
+          helpText("Red de Correlaci\u00F3n (an\u00E1lisis exploratorio/confirmatorio para las medias)."),
+          dropdownButton(inputId = "corrnetOpsBtn",
+             tags$h4("Opciones de Presentaci\u00F3n:"),
+             selectInput(inputId = 'corrnetLayout', label = 'Estilo de Representaci\u00F3n',
+                         choices = c("C\u00EDrculo"="circle","Grupos"="groups","Tipo Spring"="spring"), selected = "spring"),
+             selectInput(inputId = 'corrnetGraph', label = 'M\u00E9todo de Optimizaci\u00F3n',
+                         choices = c("Ninguno"="Ninguno","Asociaci\u00F3n"="assosciation",
+                                     "Concentraci\u00F3n"="concentration","Tipo Graphical LASSO"="glasso"), selected = "Ninguno"),
+             tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
+             circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
+             size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
+          ),
+          plotOutput("corrnetPlotOut", width = "600", height = "600") %>%
+                      withSpinner(type=4, color="cadetblue") %>%
+          helper(type = "markdown", title = "SEMVIZ: Red de Correlaci\u00F3n", colour = "red",
+                 content = "redCorrelacionPlot_help", size = "m") # size: define el ancho (s,m,l) del "popup"
+        )
      )
   ) # FIN navbarPage
 )

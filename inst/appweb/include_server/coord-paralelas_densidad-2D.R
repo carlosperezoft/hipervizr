@@ -142,3 +142,37 @@ output$disperRegrePlot <- renderPlotly({
   #
 })
 #
+output$correlogramaPlotOut <- renderPlot({
+  dsBase <- hiperCartaData
+  req(dsBase)
+  #
+  cast_data <- dsBase[c("MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")]
+  #
+  corrplot(cor(cast_data), method=input$correlogramaMethod, type=input$correlogramaSection, mar=c(1, 1, 2, 1))
+})
+#
+output$corrnetPlotOut <- renderPlot({
+  dsBase <- hiperCartaData
+  req(dsBase)
+  #
+  cast_data <- dsBase[c("MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")]
+  names(cast_data) <- c("Condu", "PH", "OxiDis", "Turb", "Pot_Redox", "Tempera")
+  # ------------------------------------------------------------------------
+  # layout: circle, groups, spring
+  # graph: default: no aplica coorrelacion extra,
+  #        association: correlation network,
+  #        concentration: partial correlation network,
+  #        glasso: optimal sparse estimate of the partial correlation matrix
+  #        ("graph" obliga el uso de "sampleSize")
+  #
+  if(input$corrnetGraph == "Ninguno") {
+     qgraph(cor(cast_data), layout=input$corrnetLayout, posCol="darkgreen", negCol="darkred")
+  } else {
+     qgraph(cor(cast_data), layout=input$corrnetLayout, posCol="darkgreen", negCol="darkred",
+            graph = input$corrnetGraph, sampleSize = nrow(cast_data))
+  }
+  #
+  title("Enclaces -> Verde: positivo | Rojo: negativo", line = 1.5)
+  #
+}, width = 600, height = 600)
+#
