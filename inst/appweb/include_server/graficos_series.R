@@ -70,15 +70,15 @@ output$serieODPlot <- renderDygraph({
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: OD",
-                    xlab="id_t", ylab="OD", group="ghiper_sincro") %>%
+  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: Oxig. Disuelto",
+                    xlab="id_t", ylab="Oxig. Disuelto", group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea, drawPoints=TRUE, pointSize=2,
                          colors = RColorBrewer::brewer.pal(3, "Set1"), pointShape="dot") %>%
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
-     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "OD")
+     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Oxig. Disuelto")
   }
   if(!input$mosaicoShowGrid) {
      gSerie <- gSerie %>% dyCrosshair()
