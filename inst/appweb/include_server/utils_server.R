@@ -7,11 +7,11 @@
 # Carga de datos base para la hipercarta y el detalle de cada id_t en la respectiva carta de control.
 # IMPORTANTE: Cada columna del archivo de excel debe tener un formato de celda tipo "general".
 #
-#hiperCartaData <- read_excel("C:\\Temp\\HIPERCARTAS_Base_144.xlsx")
-hiperCartaData <- read_excel("C:\\Temp\\HIPERCARTAS_San-Miguel_144.xlsx")
+hiperCartaData <- read_excel("C:\\Temp\\HIPERCARTAS_Base_144.xlsx")
+#hiperCartaData <- read_excel("C:\\Temp\\HIPERCARTAS_San-Miguel_144.xlsx")
 #
-#mediasColNames <- c("id_t", "MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")
-mediasColNames <- c("MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")
+mediasColNames <- c("MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")
+#mediasColNames <- c("MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")
 #
 cartaControlData <- read_excel("C:\\Temp\\CARTAS_CONTROL_Base_144.xlsx")
 #

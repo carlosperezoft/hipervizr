@@ -7,22 +7,20 @@ output$paralCoordsPlot <- renderParcoords({
   dsBase <- hiperCartaData
   req(dsBase)
   #
-  dataSerie <- dsBase[mediasColNames] # mediasColNames: declarada en utils-server.R
+  dataSerie <- dsBase[c("id_t", mediasColNames)] # mediasColNames: declarada en utils-server.R
   #
   pc <- parcoords(reorderable=TRUE,
      dataSerie,  # order columns so species first
-     rownames=TRUE, width=NULL, autoresize=TRUE,
+     rownames=FALSE, width=NULL, autoresize=TRUE,
      brushMode="1d", alphaOnBrushed=0.1, alpha=1.0, # alpha-->intensidad del color de las lineas, de 0 a 1.
      color = list(
        colorScale = htmlwidgets::JS(sprintf(
          'd3.scale.ordinal().range(%s).domain(%s)'
-         ,jsonlite::toJSON(RColorBrewer::brewer.pal(9,'Blues')) # Usar en una estacion
-         #,jsonlite::toJSON(RColorBrewer::brewer.pal(12,'Set3')) # Usar en hipercarta
-         #,jsonlite::toJSON(as.character(unique(dataSerie$id_t)))
-         ,jsonlite::toJSON(as.character(unique(dataSerie$MEDIA_turb)))
+         #,jsonlite::toJSON(RColorBrewer::brewer.pal(9,'Blues')) # Usar en una estacion
+         ,jsonlite::toJSON(RColorBrewer::brewer.pal(12,'Set3')) # Usar en hipercarta
+         ,jsonlite::toJSON(as.character(unique(dataSerie$id_t)))
        ))
-       #,colorBy = "id_t"
-       ,colorBy = "MEDIA_turb"
+       ,colorBy = "id_t"
      )
    )
 })
@@ -168,8 +166,8 @@ output$corrnetPlotOut <- renderPlot({
   #
   cast_data <- dsBase[mediasColNames]
   #
-  # names(cast_data) <- c("Condu", PH", "OxiDis", "Turb", "Pot_Redox", "Tempera")
-  names(cast_data) <- c("PH", "OxiDis", "Turb", "Pot_Redox", "Tempera")
+  names(cast_data) <- c("Condu", "PH", "OxiDis", "Turb", "Pot_Redox", "Tempera")
+  #names(cast_data) <- c("PH", "OxiDis", "Turb", "Pot_Redox", "Tempera")
   # ------------------------------------------------------------------------
   # layout: circle, groups, spring
   # graph: default: no aplica coorrelacion extra,
