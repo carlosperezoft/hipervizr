@@ -30,6 +30,8 @@ output$boxplotDensidadPlot <- renderPlotly({
   req(dsBase)
   #
   dataSerie <- dsBase[c("id_t", input$boxplotMediaHiper)]
+  selected_label <- media_labels %>% filter(variable %in% input$boxplotMediaHiper) %>% select("desc")
+  names(dataSerie) <- c("id_t", selected_label)
   #
   melt_data <- melt(dataSerie,id="id_t", variable.name="variable", value.name="media")
   #
@@ -48,6 +50,8 @@ output$violinDensidadPlot <- renderPlotly({
   req(dsBase)
   #
   dataSerie <- dsBase[c("id_t", input$violinMediaHiper)]
+  selected_label <- media_labels %>% filter(variable %in% input$violinMediaHiper) %>% select("desc")
+  names(dataSerie) <- c("id_t", selected_label)
   #
   melt_data <- melt(dataSerie,id="id_t", variable.name="variable", value.name="media")
   #
@@ -64,12 +68,14 @@ output$distribucionDensidadPlot <- renderPlotly({
   req(dsBase)
   #
   dataSerie <- dsBase[c("id_t", input$densidadMediaHiper)]
+  selected_label <- media_labels %>% filter(variable %in% input$densidadMediaHiper) %>% select("desc")
+  names(dataSerie) <- c("id_t", selected_label)
   #
   melt_data <- melt(dataSerie, id = "id_t", variable.name = "variable", value.name = "media")
   # alpha: 0.2 (colores claros) / 0.55 (colores intermedios),
   # es el parametro para el nivel de transparencia de las densidades presentadas:
   ggp <- ggplot(melt_data, aes(x = media, group = variable, fill = variable)) + geom_density(alpha=0.55) +
-                 labs(title = input$densidadMediaHiper, x = "Valor MEDIA", y = "Densidad") +
+                 labs(title = sprintf("%s",selected_label), x = sprintf("%s %s","MEDIA",selected_label), y = "Densidad") +
                  theme(
                    legend.position="none"
                  )
@@ -85,15 +91,18 @@ output$contornosDensidadPlot <- renderPlotly({
   if(input$contornoEjeXHipercarta == input$contornoEjeYHipercarta) {
       var_ejeX <- "id_t"
   }
-
+  #
   cast_data <- dsBase[c(var_ejeX, input$contornoEjeYHipercarta)]
+  ejeX_label <- media_labels %>% filter(variable %in% var_ejeX) %>% select("desc")
+  ejeY_label <- media_labels %>% filter(variable %in% input$contornoEjeYHipercarta) %>% select("desc")
   #
   shiny::validate(
     shiny::need(ncol(cast_data) == 2, "Este tipo de gr\u00E1fico aplica a DOS elementos solamente.")
   )
   # Schemes from ColorBrewer, distiller scales extends brewer to continuous scales by smoothly
   # Palette Sequential: Blues, GnBu, Spectral
-  ggp <- ggplot(cast_data, aes_string(x=colnames(cast_data)[1], y=colnames(cast_data)[2]))
+  ggp <- ggplot(cast_data, aes_string(x=colnames(cast_data)[1], y=colnames(cast_data)[2])) +
+                labs(x = sprintf("%s",ejeX_label), y = sprintf("%s",ejeY_label))
   if(input$contornoMedidaMethod == "Poligono") {
     # geom_bin2d(bins = round(nrow(cast_data) / 5)) + # bins: define el numero de celdas por eje, con lo cual agrupa puntos!
     ggp <- ggp + geom_hex() + # binwidth: tamaño visual del "bin"
@@ -131,14 +140,15 @@ output$disperRegrePlot <- renderPlotly({
   req(dsBase)
   #
   cast_data <- dsBase[c("id_t", input$disperRegreMediaHiper)]
+  selected_label <- media_labels %>% filter(variable %in% input$disperRegreMediaHiper) %>% select("desc")
   #
   scatPlot <- ggplot(cast_data,
-                     aes_string(x=colnames(cast_data)[1], y=colnames(cast_data)[2], color=colnames(cast_data)[2])) +
-    labs(x = "Fila.id_t", y = paste("Variable:", colnames(cast_data)[2])) +
-    geom_point() + geom_rug(col="steelblue", alpha=0.5, size=1.5) +
-    # al usar poly(..) se tiene una curva con mejor ajuste en el smooth:
-    geom_smooth(method=lm , formula = y ~ poly(x, 4), color="red", se=TRUE) +
-    scale_colour_gradient(low = "blue", high = "orange")
+                   aes_string(x=colnames(cast_data)[1], y=colnames(cast_data)[2], color=colnames(cast_data)[2])) +
+                   labs(x = "t-sub-j", y = paste("Variable:", selected_label), title = sprintf("%s",selected_label)) +
+                   geom_point() + geom_rug(col="steelblue", alpha=0.5, size=1.5) +
+                   # al usar poly(..) se tiene una curva con mejor ajuste en el smooth:
+                   geom_smooth(method=lm , formula = y ~ poly(x, 4), color="red", se=TRUE) +
+                   scale_colour_gradient(low = "blue", high = "orange")
   #
   ggplotly(scatPlot)
   #

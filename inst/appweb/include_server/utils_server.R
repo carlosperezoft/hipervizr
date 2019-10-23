@@ -15,3 +15,17 @@ mediasColNames <- c("MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_
 #
 cartaControlData <- read_excel("C:\\Temp\\CARTAS_CONTROL_Base_144.xlsx")
 #
+media_labels <- data.frame(
+  variable = c("id_t", "MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera"),
+  desc = c(
+      "t-sub-j",
+      "Conductividad el\u00E9ctrica (\u03BCS/cm)",
+      "pH (U de pH)",
+      "Ox\u00EDgeno disuelto (mg/l)",
+      "Turbiedad (NTU)",
+      "Redox (mV)",
+      "Temperatura (\u00BAC)"
+  ),
+  stringsAsFactors=FALSE
+)
+
