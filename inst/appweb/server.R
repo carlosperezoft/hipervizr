@@ -15,6 +15,7 @@ shinyServer(function(input, output, session) {
   observe_helpers(help_dir = "help_files")
   #
   source('include_server/coord-paralelas_densidad-2D.R', local=TRUE)
+  source('include_server/distrib-estaciones-2D-server.R', local=TRUE)
   #
   # GRAFICOS DE SERIES - SINCRONIZADOS --------------------------------------
   # SE USA LA FUNCION source(..) con el acceso especifico al codigo fuente (tipo include de java)

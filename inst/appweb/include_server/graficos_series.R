@@ -43,7 +43,7 @@ output$seriePHPlot <- renderDygraph({
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: PH",
+  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: pH",
                     xlab="id_t", ylab="PH", group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea,
@@ -51,7 +51,7 @@ output$seriePHPlot <- renderDygraph({
                dyLegend(width = 500)
   #
   if(input$tipoSerie == "Intervalo de Confianza") {
-     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "PH")
+     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "pH")
   }
   if(!input$mosaicoShowGrid) {
      gSerie <- gSerie %>% dyCrosshair()

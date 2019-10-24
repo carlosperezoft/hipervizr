@@ -29,6 +29,8 @@ sidebar <- dashboardSidebar(width = "250px",
                badgeLabel = "HOME", badgeColor = "green", selected = TRUE ),
       menuItem("An\u00E1lisis Descriptivo", tabName = "coordPar_densidad-2DTab",
                icon = shiny::icon("edit"), badgeLabel = "2D", badgeColor = "orange"),
+      menuItem("An\u00E1lisis Estaciones", tabName = "distrib-estaciones-2DTab",
+               icon = shiny::icon("industry"), badgeLabel = "2D", badgeColor = "blue"),
       # NOTA: el uso de los atributos "BADGE" no aplican en un "menuItem" con submenus
       menuItem(text = "An\u00E1lisis Hipercartas", icon = shiny::icon("stats", lib = "glyphicon"),
          # NOTA: Los atributos "badgeLabel" y "badgeColor" NO aplican en un menuSubItem !
@@ -64,6 +66,7 @@ body <- dashboardBody(
     # Se debe incluir el tabItem completo, sino el include .R genera errores de validacion:
     source("include_ui/home_tab.R", local = TRUE)$value,
     source("include_ui/coordPar_densidad-2D_tab.R", local = TRUE)$value,
+    source("include_ui/distrib-estaciones-2D-tab.R", local = TRUE)$value,
     # SE USA LA FUNCION source(..) con el acceso especifico al $value; para evitar que se
     # procese el contenido, pues causa que se genere el codigo HTML respectivo...
     # Se debe incluir el tabItem completo, sino el include .R genera errores de validacion.
