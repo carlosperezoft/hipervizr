@@ -30,7 +30,7 @@ sidebar <- dashboardSidebar(width = "250px",
       menuItem("An\u00E1lisis Descriptivo", tabName = "coordPar_densidad-2DTab",
                icon = shiny::icon("edit"), badgeLabel = "2D", badgeColor = "orange"),
       menuItem("An\u00E1lisis Estaciones", tabName = "distrib-estaciones-2DTab",
-               icon = shiny::icon("industry"), badgeLabel = "2D", badgeColor = "blue"),
+               icon = shiny::icon("industry"), badgeLabel = "Mensual", badgeColor = "blue"),
       # NOTA: el uso de los atributos "BADGE" no aplican en un "menuItem" con submenus
       menuItem(text = "An\u00E1lisis Hipercartas", icon = shiny::icon("stats", lib = "glyphicon"),
          # NOTA: Los atributos "badgeLabel" y "badgeColor" NO aplican en un menuSubItem !

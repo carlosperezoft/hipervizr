@@ -7,11 +7,22 @@ output$boxplotEstacionesPlot <- renderPlotly({
   dsBase <- medicionEstacionData
   req(dsBase)
   #
+  if(input$boxplotEstacDiaMes != "T") {
+     dsBase <- dsBase %>% filter(DIA_MES == input$boxplotEstacDiaMes)
+  }
+  #
+  if(!is.null(input$boxplotEstacDiaSem)) {
+     dsBase <- dsBase %>% filter(DIA_SEMANA %in% input$boxplotEstacDiaSem)
+  }
+  #
+  shiny::validate(
+    shiny::need(nrow(dsBase) > 0, # Este check valida la condicion de forma "afirmativa"..
+                "No se tienen mediciones disponibles para los filtros usados.")
+  )
+  #
   dataSerie <- dsBase[c("id_t", "ESTACION", input$boxplotEstacionesParam)]
   selected_label <- media_labels %>% filter(variable %in% input$boxplotEstacionesParam) %>% select("desc")
   names(dataSerie) <- c("id_t", "estacion", "parametro")
-  #
-  #melt_data <- melt(dataSerie,id="id_t", variable.name="variable", value.name="media")
   #
   gpy <- dataSerie %>% # pointpos: Posicion donde salen los puntos, aqui el centro (0).
     plot_ly(x=~estacion, y=~parametro, color=~estacion, type = "box", jitter=0.3, pointpos=0,
@@ -22,43 +33,68 @@ output$boxplotEstacionesPlot <- renderPlotly({
    return(gpy)
 })
 #
-# output$violinDensidadPlot <- renderPlotly({
-#   dsBase <- hiperCartaData
-#   req(dsBase)
-#   #
-#   dataSerie <- dsBase[c("id_t", input$violinMediaHiper)]
-#   selected_label <- media_labels %>% filter(variable %in% input$violinMediaHiper) %>% select("desc")
-#   names(dataSerie) <- c("id_t", selected_label)
-#   #
-#   melt_data <- melt(dataSerie,id="id_t", variable.name="variable", value.name="media")
-#   #
-#   gpy <- melt_data %>%
-#     plot_ly(x = ~variable, y = ~media, split = ~variable, type = "violin",
-#             box = list(visible = T), meanline = list(visible = T)
-#     ) %>% layout(xaxis = list(title = "variable"), yaxis = list(title = "media", zeroline = T))
-#    #
-#    return(gpy)
-# })
-# #
-# output$distribucionDensidadPlot <- renderPlotly({
-#   dsBase <- hiperCartaData
-#   req(dsBase)
-#   #
-#   dataSerie <- dsBase[c("id_t", input$densidadMediaHiper)]
-#   selected_label <- media_labels %>% filter(variable %in% input$densidadMediaHiper) %>% select("desc")
-#   names(dataSerie) <- c("id_t", selected_label)
-#   #
-#   melt_data <- melt(dataSerie, id = "id_t", variable.name = "variable", value.name = "media")
-#   # alpha: 0.2 (colores claros) / 0.55 (colores intermedios),
-#   # es el parametro para el nivel de transparencia de las densidades presentadas:
-#   ggp <- ggplot(melt_data, aes(x = media, group = variable, fill = variable)) + geom_density(alpha=0.55) +
-#                  labs(title = sprintf("%s",selected_label), x = sprintf("%s %s","MEDIA",selected_label), y = "Densidad") +
-#                  theme(
-#                    legend.position="none"
-#                  )
-#   # Se usa el objeto "ggp" para una invocacion mas limpia...
-#   ggplotly(ggp)
-# })
+output$violinEstacionesPlot <- renderPlotly({
+  dsBase <- medicionEstacionData
+  req(dsBase)
+   #
+  if(input$violinEstacDiaMes != "T") {
+     dsBase <- dsBase %>% filter(DIA_MES == input$violinEstacDiaMes)
+  }
+  #
+  if(!is.null(input$violinEstacDiaSem)) {
+     dsBase <- dsBase %>% filter(DIA_SEMANA %in% input$violinEstacDiaSem)
+  }
+  #
+  shiny::validate(
+    shiny::need(nrow(dsBase) > 0, # Este check valida la condicion de forma "afirmativa"..
+                "No se tienen mediciones disponibles para los filtros usados.")
+  )
+  #
+  dataSerie <- dsBase[c("id_t", "ESTACION", input$violinEstacionesParam)]
+  selected_label <- media_labels %>% filter(variable %in% input$violinEstacionesParam) %>% select("desc")
+  names(dataSerie) <- c("id_t", "estacion", "parametro")
+  #
+  gpy <- dataSerie %>%
+    plot_ly(x = ~estacion, y = ~parametro, split = ~estacion, type = "violin",
+            box = list(visible = T), meanline = list(visible = T)
+    ) %>% layout(xaxis = list(title = sprintf("%s",selected_label)), yaxis = list(title = "valor promedio", zeroline = T))
+   #
+   return(gpy)
+})
+#
+output$distriDensiEstacionesPlot <- renderPlotly({
+  dsBase <- medicionEstacionData
+  req(dsBase)
+  #
+   #
+  if(input$densidadEstacDiaMes != "T") {
+     dsBase <- dsBase %>% filter(DIA_MES == input$densidadEstacDiaMes)
+  }
+  #
+  if(!is.null(input$densidadEstacDiaSem)) {
+     dsBase <- dsBase %>% filter(DIA_SEMANA %in% input$densidadEstacDiaSem)
+  }
+  #
+  shiny::validate(
+    shiny::need(nrow(dsBase) > 0, # Este check valida la condicion de forma "afirmativa"..
+                "No se tienen mediciones disponibles para los filtros usados.")
+  )
+  #
+  dataSerie <- dsBase[c("id_t", "ESTACION", input$densidadEstacionesParam)]
+  selected_label <- media_labels %>% filter(variable %in% input$densidadEstacionesParam) %>% select("desc")
+  names(dataSerie) <- c("id_t", "estacion", "parametro")
+  #
+  melt_data <- melt(dataSerie, id = "id_t", variable.name = "variable", value.name = "media")
+  # alpha: 0.2 (colores claros) / 0.55 (colores intermedios),
+  # es el parametro para el nivel de transparencia de las densidades presentadas:
+  ggp <- ggplot(dataSerie, aes(x = parametro, group = estacion, fill = estacion)) + geom_density(alpha=0.55) +
+                 labs(title = sprintf("%s",selected_label), x = sprintf("%s %s","Valores: ",selected_label), y = "Densidad") +
+                 theme(
+                   legend.position="right"
+                 )
+  # Se usa el objeto "ggp" para una invocacion mas limpia...
+  ggplotly(ggp)
+})
 # #
 # output$contornosDensidadPlot <- renderPlotly({
 #   dsBase <- hiperCartaData
@@ -112,25 +148,6 @@ output$boxplotEstacionesPlot <- renderPlotly({
 #   ggplotly(ggp)
 # })
 # #
-# output$disperRegrePlot <- renderPlotly({
-#   dsBase <- hiperCartaData
-#   req(dsBase)
-#   #
-#   cast_data <- dsBase[c("id_t", input$disperRegreMediaHiper)]
-#   selected_label <- media_labels %>% filter(variable %in% input$disperRegreMediaHiper) %>% select("desc")
-#   #
-#   scatPlot <- ggplot(cast_data,
-#                    aes_string(x=colnames(cast_data)[1], y=colnames(cast_data)[2], color=colnames(cast_data)[2])) +
-#                    labs(x = "t-sub-j", y = paste("Variable:", selected_label), title = sprintf("%s",selected_label)) +
-#                    geom_point() + geom_rug(col="steelblue", alpha=0.5, size=1.5) +
-#                    # al usar poly(..) se tiene una curva con mejor ajuste en el smooth:
-#                    geom_smooth(method=lm , formula = y ~ poly(x, 4), color="red", se=TRUE) +
-#                    scale_colour_gradient(low = "blue", high = "orange")
-#   #
-#   ggplotly(scatPlot)
-#   #
-# })
-# #
 # output$correlogramaPlotOut <- renderPlot({
 #   dsBase <- hiperCartaData
 #   req(dsBase)
@@ -147,30 +164,4 @@ output$boxplotEstacionesPlot <- renderPlotly({
 #            addCoef.col = showCoef, title = "Correlograma de las medias")
 # })
 #
-# output$corrnetPlotOut <- renderPlot({
-#   dsBase <- hiperCartaData
-#   req(dsBase)
-#   #
-#   cast_data <- dsBase[mediasColNames]
-#   #
-#   names(cast_data) <- c("Condu", "PH", "OxiDis", "Turb", "Pot_Redox", "Tempera")
-#   #names(cast_data) <- c("PH", "OxiDis", "Turb", "Pot_Redox", "Tempera")
-#   # ------------------------------------------------------------------------
-#   # layout: circle, groups, spring
-#   # graph: default: no aplica coorrelacion extra,
-#   #        association: correlation network,
-#   #        concentration: partial correlation network,
-#   #        glasso: optimal sparse estimate of the partial correlation matrix
-#   #        ("graph" obliga el uso de "sampleSize")
-#   #
-#   if(input$corrnetGraph == "Ninguno") {
-#      qgraph(cor(cast_data), layout=input$corrnetLayout, posCol="darkgreen", negCol="darkred")
-#   } else {
-#      qgraph(cor(cast_data), layout=input$corrnetLayout, posCol="darkgreen", negCol="darkred",
-#             graph = input$corrnetGraph, sampleSize = nrow(cast_data))
-#   }
-#   #
-#   title("Enclaces -> Verde: positivo | Rojo: negativo", line = 1.5)
-#   #
-# }, width = 600, height = 600)
 #
