@@ -27,7 +27,7 @@ tabItem(tabName = "controlEstacionTab",
                          min=1, max=31, value=21),
              selectInput("hcEstacionesTipoCarta", label = "Presentar como", width="220px", # Para ajutar el ancho del Select!
                   choices = c("Cada Serie Independiente"="SERIE_IND", "Intervalo de Confianza"="INT_CONF"),
-                  selected = "SERIE_IND"),
+                  selected = "INT_CONF"),
              checkboxInput("hcEstacionesShowgridCheck", label = "Usar Grid", value = FALSE),
              tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
              circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",

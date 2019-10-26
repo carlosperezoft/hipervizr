@@ -35,6 +35,7 @@ output$hipercartaEstacionesPlot <- renderDygraph({
   dataParamSerie <- dsMesEstacion[c(input$hipercartaEstacionesSel)]
   names(dataParamSerie) <- c("parametro_estacion")
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
+  # UTIL! cbind: combiana dos data.frame con el mismo numero de filas.
   dataSerie <- cbind(dsBase[hiperParams], dataParamSerie)
   #
   if(input$hcEstacionesTipoCarta == "INT_CONF") {
@@ -50,8 +51,12 @@ output$hipercartaEstacionesPlot <- renderDygraph({
                dyLegend(width=700)
   #
   if(input$hcEstacionesTipoCarta == "INT_CONF") {
-     gSerie <- gSerie %>% dySeries("parametro_estacion", label=paste("Par\u00E1metro", hiperSel)) %>%
-                          dySeries(c("lwr", "fit", "upr"), label=paste("Hipercarta", hiperSel))
+     # UTIL! la funcion sub(..) reemplaza por vacio ("") el resto del string luego del primer espacio de izq. a der.
+     # --> Asi se obtiene la primera palabra del string.
+     param_name_label <- sub( "\\s.*", "", selected_label)
+     #
+     gSerie <- gSerie %>% dySeries("parametro_estacion", label=paste("Par\u00E1metro", param_name_label)) %>%
+                          dySeries(c("lwr", "fit", "upr"), label=paste("Hipercarta", param_name_label))
   }
   if(!input$hcEstacionesShowgridCheck) {
      gSerie <- gSerie %>% dyCrosshair()

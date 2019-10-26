@@ -12,7 +12,7 @@ output$serieConductPlot <- renderDygraph({
   # Obtencion del Data Frame de la serie usando manejo DATA FRAMES de forma mas directa, funciona OK:
   # NOTA: La primera columna de la serie debe ser siempre el ID o FECHA:
   # dataSerie <- data.frame(dsBase$id_t, lwr=dsBase$Lim_Inf_SST_tr, fit=dsBase$Media_SST_tr, upr=dsBase$Lim_Sup_SST_tr)
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
@@ -23,7 +23,7 @@ output$serieConductPlot <- renderDygraph({
                          drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
                dyLegend(width = 500)
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Conductividad")
   }
   if(!input$mosaicoShowGrid) {
@@ -39,7 +39,7 @@ output$seriePHPlot <- renderDygraph({
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[c("id_t", "LI_ph", "MEDIA_ph", "LS_ph")]
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
@@ -50,7 +50,7 @@ output$seriePHPlot <- renderDygraph({
                          drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
                dyLegend(width = 500)
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "pH")
   }
   if(!input$mosaicoShowGrid) {
@@ -66,7 +66,7 @@ output$serieODPlot <- renderDygraph({
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[c("id_t", "LI_od", "MEDIA_od", "LS_od")]
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
@@ -77,7 +77,7 @@ output$serieODPlot <- renderDygraph({
                          colors = RColorBrewer::brewer.pal(3, "Set1"), pointShape="dot") %>%
                dyLegend(width = 500)
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Oxig. Disuelto")
   }
   if(!input$mosaicoShowGrid) {
@@ -93,7 +93,7 @@ output$serieTurbPlot <- renderDygraph({
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[c("id_t", "LI_turb", "MEDIA_turb", "LS_turb")]
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
@@ -104,7 +104,7 @@ output$serieTurbPlot <- renderDygraph({
                          colors = RColorBrewer::brewer.pal(3, "Dark2"), pointShape="dot") %>%
                dyLegend(width = 500)
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Turbiedad")
   }
   if(!input$mosaicoShowGrid) {
@@ -120,7 +120,7 @@ output$seriePotRedoxPlot <- renderDygraph({
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[c("id_t", "LI_pot_redox", "MEDIA_pot_redox", "LS_pot_redox")]
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
@@ -131,7 +131,7 @@ output$seriePotRedoxPlot <- renderDygraph({
                          colors = RColorBrewer::brewer.pal(3, "Dark2"), pointShape="dot") %>%
                dyLegend(width = 500)
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "POT REDOX")
   }
   if(!input$mosaicoShowGrid) {
@@ -147,7 +147,7 @@ output$serieTemperaPlot <- renderDygraph({
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[c("id_t", "LI_tempera", "MEDIA_tempera", "LS_tempera")]
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
@@ -158,7 +158,7 @@ output$serieTemperaPlot <- renderDygraph({
                          colors = RColorBrewer::brewer.pal(3, "Dark2"), pointShape="dot") %>%
                dyLegend(width = 500)
   #
-  if(input$tipoSerie == "Intervalo de Confianza") {
+  if(input$tipoSerie == "INT_CONF") {
      gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label = "Temperatura")
   }
   if(!input$mosaicoShowGrid) {
@@ -176,28 +176,34 @@ output$hipercartaBasePlot <- renderDygraph({
   #
   hiperSel <- input$hipercartaBaseSel
   hiperParams <- switch(hiperSel,
-     "CONDUCTIVIDAD" = c("id_t", "LI_Condu", "MEDIA_Condu", "LS_Condu"),
-     "PH" = c("id_t", "LI_ph", "MEDIA_ph", "LS_ph"),
-     "OD" = c("id_t", "LI_od", "MEDIA_od", "LS_od"),
-     "TURBIEDAD" = c("id_t", "LI_turb", "MEDIA_turb", "LS_turb"),
-     "TEMPERATURA" = c("id_t", "LI_tempera", "MEDIA_tempera", "LS_tempera")
+     "MEDIA_Condu" = c("id_t", "LI_Condu", "MEDIA_Condu", "LS_Condu"),
+     "MEDIA_ph" = c("id_t", "LI_ph", "MEDIA_ph", "LS_ph"),
+     "MEDIA_od" = c("id_t", "LI_od", "MEDIA_od", "LS_od"),
+     "MEDIA_turb" = c("id_t", "LI_turb", "MEDIA_turb", "LS_turb"),
+     "MEDIA_tempera" = c("id_t", "LI_tempera", "MEDIA_tempera", "LS_tempera")
   )
   #
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- dsBase[hiperParams]
   #
-  if(input$ccTipoCarta == "Intervalo de Confianza") {
+  if(input$ccTipoCarta == "INT_CONF") {
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main=hiperSel,
-                    xlab=paste("t por Hipercarta"), ylab=paste("Intervalo para:", hiperSel)) %>%
+  selected_label <- media_labels %>% filter(variable == hiperSel) %>% select("desc")
+  #
+  gSerie <- dygraph(dataSerie, main=sprintf("%s",selected_label),
+                    xlab=paste("t por Hipercarta"), ylab=paste("Intervalo para:", selected_label)) %>%
                dyRangeSelector() %>% dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$ccShowgridCheck, drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
                dyLegend(width=500)
   #
-  if(input$ccTipoCarta == "Intervalo de Confianza") {
-     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label=paste("Media", hiperSel) )
+  if(input$ccTipoCarta == "INT_CONF") {
+     # UTIL! la funcion sub(..) reemplaza por vacio ("") el resto del string luego del primer espacio de izq. a der.
+     # --> Asi se obtiene la primera palabra del string.
+     param_name_label <- sub( "\\s.*", "", selected_label)
+     #
+     gSerie <- gSerie %>% dySeries(c("lwr", "fit", "upr"), label=paste("Media", param_name_label))
   }
   if(!input$ccShowgridCheck) {
      gSerie <- gSerie %>% dyCrosshair()
@@ -211,12 +217,21 @@ output$cartaControlDetallePlot <- renderDygraph({
   req(input$hipercartaBasePlot_click$x)
   #
   hiperSel <- input$hipercartaBaseSel
+  # Inicialmente se seleccionan las columnas segun el parametro:
   hiperParams <- switch(hiperSel,
-     "CONDUCTIVIDAD" = c("LI_Condu", "MEDIA_Condu", "LS_Condu"),
-     "PH" = c("LI_ph", "MEDIA_ph", "LS_ph"),
-     "OD" = c("LI_od", "MEDIA_od", "LS_od"),
-     "TURBIEDAD" = c("LI_turb", "MEDIA_turb", "LS_turb"),
-     "TEMPERATURA" = c("LI_tempera", "MEDIA_tempera", "LS_tempera")
+     "MEDIA_Condu" = c("LI_Condu", "MEDIA_Condu", "LS_Condu"),
+     "MEDIA_ph" = c("LI_ph", "MEDIA_ph", "LS_ph"),
+     "MEDIA_od" = c("LI_od", "MEDIA_od", "LS_od"),
+     "MEDIA_turb" = c("LI_turb", "MEDIA_turb", "LS_turb"),
+     "MEDIA_tempera" = c("LI_tempera", "MEDIA_tempera", "LS_tempera")
+  )
+  # Luego se restaura el valor a las columnas que tiene la carta de control:
+  hiperSel <- switch(hiperSel,
+     "MEDIA_Condu" = "CONDUCTIVIDAD",
+     "MEDIA_ph" = "PH",
+     "MEDIA_od" = "OD",
+     "MEDIA_turb" = "TURBIEDAD",
+     "MEDIA_tempera" = "TEMPERATURA"
   )
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   dataSerie <- cartaControlData %>%
