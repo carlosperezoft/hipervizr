@@ -22,7 +22,8 @@ shinyServer(function(input, output, session) {
   # es posible usar el acceso especifico $value, pero no afecta; funciona igual. En la interfaz
   # grafica UI si es necesario.
   source('include_server/graficos_series.R', local=TRUE)
-
+  source('include_server/control-estacion-server.R', local=TRUE)
+  #
   ## ELEMENTOS DE AYUDA:
   output$basicsHelpText <- renderText( # La funcion renderText entrega el texto HTML, renderPrint tambien aplica
     paste0(tags$b("Proyecto:"),
@@ -35,7 +36,7 @@ shinyServer(function(input, output, session) {
     )
   )
   ## FIN AYUDA
-
+  #
   # FINALIZACION DE SESION WEB ----------------------------------------------
   # Finaliza la ejecucion de la APP en R-Studio al cerrar la Ventana PPAL:
   session$onSessionEnded(function() {

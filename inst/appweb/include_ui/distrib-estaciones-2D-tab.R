@@ -25,7 +25,7 @@ tabItem(tabName="distrib-estaciones-2DTab",
                                          "Jueves"=4, "Viernes"=5, "S\u00E1bado"=6, "Domingo"=7),
                   selected = 0, multiple = TRUE),
               awesomeCheckbox(inputId = "boxplotEstacionPtosCheck",
-                          label = "Ver Puntos de Media", value = FALSE, status = "success"),
+                          label = "Ver Puntos de Medici\u00F3n", value = FALSE, status = "success"),
               tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
               circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
               size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
@@ -76,53 +76,69 @@ tabItem(tabName="distrib-estaciones-2DTab",
            ),
            plotlyOutput("violinEstacionesPlot", width = "100%", height = "500px") %>% withSpinner(type=5, color="cadetblue")
         )
-     ) #,
-     # tabPanel("Contornos", icon = icon("paperclip"),
-     #    helpText("An\u00E1lisis por medio de contornos (Densidad 2D)."),
-     #    dropdownButton(inputId = "contornoMedidaOpsBtn",
-     #      tags$h4("Opciones de Presentaci\u00F3n:"),
-     #      # Nota: En el listado de choices se usa una lista c("label"="id_txt"). En el server el input entrega el "id_txt".
-     #      selectInput("contornoEjeXHipercarta", label = "Hipercarta eje X", width="220px", # Para ajutar el ancho del Select!
-     #              choices=c("t sub-j"="id_t", "Conductividad"="MEDIA_Condu", "pH"="MEDIA_ph",
-     #                        "Oxig. Disuelto"="MEDIA_od", "Turbiedad"="MEDIA_turb",
-     #                        "Pot. Redox"="MEDIA_pot_redox", "Temperatura"="MEDIA_tempera"),
-     #              selected="id_t"),
-     #      selectInput("contornoEjeYHipercarta", label = "Hipercarta eje Y", width="220px", # Para ajutar el ancho del Select!
-     #              choices=c("Conductividad"="MEDIA_Condu", "pH"="MEDIA_ph",
-     #                        "Oxig. Disuelto"="MEDIA_od", "Turbiedad"="MEDIA_turb",
-     #                        "Pot. Redox"="MEDIA_pot_redox", "Temperatura"="MEDIA_tempera"),
-     #              selected="MEDIA_Condu"),
-     #      selectInput(inputId='contornoMedidaMethod', label='Estilo de Representaci\u00F3n',
-     #                  choices=c("Poligono", "Contorno", "Espectral"), selected = "Espectral"),
-     #      awesomeCheckbox(inputId = "contornoMedidaPuntosCheck",
-     #                      label = "Ver Puntos de Media", value = FALSE, status = "success"),
-     #      tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
-     #      circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
-     #      size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
-     #    ),
-     #    plotlyOutput("contornosDensidadPlot", width = "100%", height = "500px") %>% withSpinner(type=4, color="cadetblue")
-     # ),
-     # navbarMenu("Correlaci\u00F3n",
-     #    tabPanel("Correlograma", icon = icon("th-large"),
-     #       helpText("An\u00E1lisis por medio de Correlograma."),
-     #       dropdownButton(inputId = "correlogramaOpsBtn",
-     #          tags$h4("Opciones de Presentaci\u00F3n:"),
-     #          selectInput(inputId = 'correlogramaMethod', label = 'Estilo de Representaci\u00F3n',
-     #             choices = c("C\u00EDrculo"="circle","Cuadrado"="square",
-     #                "Elipse"="ellipse","Num\u00E9rico"="number","Torta"="pie"),
-     #             selected = "circle"),
-     #          selectInput(inputId = 'correlogramaSection', label = 'Ver Secci\u00F3n',
-     #             choices = c("Completo"="full","Inferior"="lower","Superior"="upper"), selected = "upper"),
-     #          awesomeCheckbox(inputId = "correlogramaCoefCheck",
-     #                      label = "Ver Coeficientes", value = FALSE, status = "success"),
-     #          tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
-     #          circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
-     #          size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
-     #       ),
-     #       # IMPORTANTE: corrplot genera un grafico estandar para el cual plotly no tiene WRAPPER...
-     #       plotOutput("correlogramaPlotOut", width = "100%", height = "500") %>% withSpinner(type=5, color="cadetblue")
-     #    )
-     #)
+     ),
+     tabPanel("Contornos", icon = icon("paperclip"),
+        helpText("An\u00E1lisis por medio de contornos (Densidad 2D)."),
+        dropdownButton(inputId = "contornoEstacionesOpsBtn",
+          tags$h4("Opciones de Presentaci\u00F3n:"),
+          # Nota: En el listado de choices se usa una lista c("label"="id_txt"). En el server el input entrega el "id_txt".
+          selectInput(inputId='contornoFiltroEstacion', label='Estaci\u00F3n',
+                  choices=c("Todas"="T", "San Miguel"="SAN_MIGUEL", "Anc\u00F3n Sur"="ANCON_SUR", "Aula Ambiental"="AULA_AMBIENTAL"),
+                  selected = "SAN_MIGUEL"),
+          selectInput("contornoEjeXEstaciones", label = "Par\u00E1metro eje X", width="220px", # Para ajutar el ancho del Select!
+                  choices=c("t sub-j"="id_t", "Conductividad"="MEDIA_Condu", "pH"="MEDIA_ph",
+                            "Oxig. Disuelto"="MEDIA_od", "Turbiedad"="MEDIA_turb",
+                            "Pot. Redox"="MEDIA_pot_redox", "Temperatura"="MEDIA_tempera"),
+                  selected="id_t"),
+          selectInput("contornoEjeYEstaciones", label = "Par\u00E1metro eje Y", width="220px", # Para ajutar el ancho del Select!
+                  choices=c("Conductividad"="MEDIA_Condu", "pH"="MEDIA_ph",
+                            "Oxig. Disuelto"="MEDIA_od", "Turbiedad"="MEDIA_turb",
+                            "Pot. Redox"="MEDIA_pot_redox", "Temperatura"="MEDIA_tempera"),
+                  selected="MEDIA_Condu"),
+          sliderTextInput(inputId="contornoEstacDiaMes", label = "D\u00EDa del Mes (T: todos)",
+                  choices = c("T", seq(1:31)), grid = TRUE),
+          selectInput("contornoEstacDiaSem", label = "D\u00EDa de Semana", width="220px", # Para ajutar el ancho del Select!
+                  choices = c("Lunes"=1, "Martes"=2, "Mi\u00E9rcoles"=3,
+                                         "Jueves"=4, "Viernes"=5, "S\u00E1bado"=6, "Domingo"=7),
+                  selected = 0, multiple = TRUE),
+          selectInput(inputId='contornoEstacionMethod', label='Estilo de Representaci\u00F3n',
+                  choices=c("Contorno", "Espectral", "Poligono"), selected = "Contorno"),
+          awesomeCheckbox(inputId = "contornoEstacionPuntosCheck",
+                          label = "Ver Puntos de Medici\u00F3n", value = FALSE, status = "success"),
+          tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
+          circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
+          size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
+        ),
+        plotlyOutput("contornosEstacionesPlot", width = "100%", height = "500px") %>% withSpinner(type=4, color="cadetblue")
+     ),
+     tabPanel("Correlograma", icon = icon("th-large"),
+        helpText("An\u00E1lisis por medio de Correlograma."),
+        dropdownButton(inputId = "correlogramaEstacionesOpsBtn",
+           tags$h4("Opciones de Presentaci\u00F3n:"),
+           selectInput(inputId='correlogramaFiltroEstacion', label='Estaci\u00F3n',
+               choices=c("Todas"="T", "San Miguel"="SAN_MIGUEL", "Anc\u00F3n Sur"="ANCON_SUR", "Aula Ambiental"="AULA_AMBIENTAL"),
+               selected = "SAN_MIGUEL"),
+           sliderTextInput(inputId="correlogramaEstacDiaMes", label = "D\u00EDa del Mes (T: todos)",
+                  choices = c("T", seq(1:31)), grid = TRUE),
+           selectInput("correlogramaEstacDiaSem", label = "D\u00EDa de Semana", width="220px", # Para ajutar el ancho del Select!
+                  choices = c("Lunes"=1, "Martes"=2, "Mi\u00E9rcoles"=3,
+                                         "Jueves"=4, "Viernes"=5, "S\u00E1bado"=6, "Domingo"=7),
+                  selected = 0, multiple = TRUE),
+           selectInput(inputId = 'correlogramaEstacionesMethod', label = 'Estilo de Representaci\u00F3n',
+                 choices = c("C\u00EDrculo"="circle","Cuadrado"="square",
+                    "Elipse"="ellipse","Num\u00E9rico"="number","Torta"="pie"),
+                 selected = "circle"),
+           selectInput(inputId = 'correlogramaEstacionesSection', label = 'Ver Secci\u00F3n',
+                  choices = c("Completo"="full","Inferior"="lower","Superior"="upper"), selected = "upper"),
+           awesomeCheckbox(inputId = "correlogramaEstacionesCoefCheck",
+                       label = "Ver Coeficientes", value = FALSE, status = "success"),
+           tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
+           circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
+           size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
+        ),
+        # IMPORTANTE: corrplot genera un grafico estandar para el cual plotly no tiene WRAPPER...
+        plotOutput("correlogramaEstacionesPlot", width = "100%", height = "500") %>% withSpinner(type=5, color="cadetblue")
+     )
   ) # FIN navbarPage
 )
 #

@@ -35,7 +35,8 @@ sidebar <- dashboardSidebar(width = "250px",
       menuItem(text = "An\u00E1lisis Hipercartas", icon = shiny::icon("stats", lib = "glyphicon"),
          # NOTA: Los atributos "badgeLabel" y "badgeColor" NO aplican en un menuSubItem !
          menuSubItem(text = "Mosaico Principal", tabName = "hipercartaMaestroTab", icon = icon("cube")),
-         menuSubItem(text = "Cartas de Control", tabName = "cartaControlDetalleTab", icon = icon("gear"))
+         menuSubItem(text = "Cartas de Control", tabName = "cartaControlDetalleTab", icon = icon("gear")),
+         menuSubItem(text = "Control por Estaci\u00F3n", tabName = "controlEstacionTab", icon = icon("map"))
       ),
       # NOTA: El uso de "href", es excluyente con el uso de "tabName" y de "subitems". Se debe usar uno de ellos.
       # El atributo "newtab" se utiliza para activar una nueva pestaña o popup al cargar el "href"
@@ -76,6 +77,7 @@ body <- dashboardBody(
     # ***
     source("include_ui/hipercartaMaestro_tab.R", local = TRUE)$value,
     source("include_ui/cartaControlDetalle_tab.R", local = TRUE)$value,
+    source("include_ui/control-estacion-tab.R", local = TRUE)$value,
     tabItem(tabName = "ayudaTab", href = "/ayuda/rmarkdown_test.html", newtab = TRUE)
   ) # /tabItems
 ) # /dashboardBody

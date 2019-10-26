@@ -16,8 +16,8 @@ output$serieConductPlot <- renderDygraph({
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: Conductividad",
-                    xlab="id_t", ylab="Conductividad", group="ghiper_sincro") %>%
+  gSerie <- dygraph(dataSerie, main = paste("Serie Hipercarta:", media_labels[2,2]),
+                    xlab="id_t", ylab=media_labels[2,2], group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea,
                          drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
@@ -43,8 +43,8 @@ output$seriePHPlot <- renderDygraph({
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: pH",
-                    xlab="id_t", ylab="PH", group="ghiper_sincro") %>%
+  gSerie <- dygraph(dataSerie, main = paste("Serie Hipercarta:", media_labels[3,2]),
+                    xlab="id_t", ylab=media_labels[3,2], group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea,
                          drawPoints=TRUE, pointSize=2, pointShape="dot") %>%
@@ -70,8 +70,8 @@ output$serieODPlot <- renderDygraph({
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: Oxig. Disuelto",
-                    xlab="id_t", ylab="Oxig. Disuelto", group="ghiper_sincro") %>%
+  gSerie <- dygraph(dataSerie, main = paste("Serie Hipercarta:", media_labels[4,2]),
+                    xlab="id_t", ylab=media_labels[4,2], group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea, drawPoints=TRUE, pointSize=2,
                          colors = RColorBrewer::brewer.pal(3, "Set1"), pointShape="dot") %>%
@@ -97,8 +97,8 @@ output$serieTurbPlot <- renderDygraph({
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: Turbiedad",
-                    xlab="id_t", ylab="Turbiedad", group="ghiper_sincro") %>%
+  gSerie <- dygraph(dataSerie, main = paste("Serie Hipercarta:", media_labels[5,2]),
+                    xlab="id_t", ylab=media_labels[5,2], group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea, drawPoints=TRUE, pointSize=2,
                          colors = RColorBrewer::brewer.pal(3, "Dark2"), pointShape="dot") %>%
@@ -124,8 +124,8 @@ output$seriePotRedoxPlot <- renderDygraph({
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: POT REDOX",
-                    xlab="id_t", ylab="POT REDOX", group="ghiper_sincro") %>%
+  gSerie <- dygraph(dataSerie, main = paste("Serie Hipercarta:",media_labels[6,2]),
+                    xlab="id_t", ylab=media_labels[6,2], group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea, drawPoints=TRUE, pointSize=2,
                          colors = RColorBrewer::brewer.pal(3, "Dark2"), pointShape="dot") %>%
@@ -151,8 +151,8 @@ output$serieTemperaPlot <- renderDygraph({
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr")
   }
   #
-  gSerie <- dygraph(dataSerie, main = "Serie Hipercarta: Temperatura",
-                    xlab="id_t", ylab="Temperatura", group="ghiper_sincro") %>%
+  gSerie <- dygraph(dataSerie, main = paste("Serie Hipercarta:",media_labels[7,2]),
+                    xlab="id_t", ylab=media_labels[7,2], group="ghiper_sincro") %>%
                dyRangeSelector() %>%  dyHighlight(highlightSeriesOpts = list(strokeWidth = 2)) %>%
                dyOptions(drawGrid=input$mosaicoShowGrid, fillGraph=input$mosaicoShowArea, drawPoints=TRUE, pointSize=2,
                          colors = RColorBrewer::brewer.pal(3, "Dark2"), pointShape="dot") %>%
@@ -168,7 +168,7 @@ output$serieTemperaPlot <- renderDygraph({
   return(gSerie)
 })
 #
-# INICIO SERIES DE HIPERCARTA --< DETALLE CARTA DE CONTROL:
+# INICIO SERIES DE HIPERCARTA --> DETALLE CARTA DE CONTROL:
 #
 output$hipercartaBasePlot <- renderDygraph({
   dsBase <- hiperCartaData

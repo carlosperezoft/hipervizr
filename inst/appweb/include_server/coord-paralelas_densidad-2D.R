@@ -30,7 +30,7 @@ output$boxplotDensidadPlot <- renderPlotly({
   req(dsBase)
   #
   dataSerie <- dsBase[c("id_t", input$boxplotMediaHiper)]
-  selected_label <- media_labels %>% filter(variable %in% input$boxplotMediaHiper) %>% select("desc")
+  selected_label <- media_labels %>% filter(variable == input$boxplotMediaHiper) %>% select("desc")
   names(dataSerie) <- c("id_t", selected_label)
   #
   melt_data <- melt(dataSerie,id="id_t", variable.name="variable", value.name="media")
@@ -50,7 +50,7 @@ output$violinDensidadPlot <- renderPlotly({
   req(dsBase)
   #
   dataSerie <- dsBase[c("id_t", input$violinMediaHiper)]
-  selected_label <- media_labels %>% filter(variable %in% input$violinMediaHiper) %>% select("desc")
+  selected_label <- media_labels %>% filter(variable == input$violinMediaHiper) %>% select("desc")
   names(dataSerie) <- c("id_t", selected_label)
   #
   melt_data <- melt(dataSerie,id="id_t", variable.name="variable", value.name="media")
@@ -68,7 +68,7 @@ output$distribucionDensidadPlot <- renderPlotly({
   req(dsBase)
   #
   dataSerie <- dsBase[c("id_t", input$densidadMediaHiper)]
-  selected_label <- media_labels %>% filter(variable %in% input$densidadMediaHiper) %>% select("desc")
+  selected_label <- media_labels %>% filter(variable == input$densidadMediaHiper) %>% select("desc")
   names(dataSerie) <- c("id_t", selected_label)
   #
   melt_data <- melt(dataSerie, id = "id_t", variable.name = "variable", value.name = "media")
@@ -93,8 +93,8 @@ output$contornosDensidadPlot <- renderPlotly({
   }
   #
   cast_data <- dsBase[c(var_ejeX, input$contornoEjeYHipercarta)]
-  ejeX_label <- media_labels %>% filter(variable %in% var_ejeX) %>% select("desc")
-  ejeY_label <- media_labels %>% filter(variable %in% input$contornoEjeYHipercarta) %>% select("desc")
+  ejeX_label <- media_labels %>% filter(variable == var_ejeX) %>% select("desc")
+  ejeY_label <- media_labels %>% filter(variable == input$contornoEjeYHipercarta) %>% select("desc")
   #
   shiny::validate(
     shiny::need(ncol(cast_data) == 2, "Este tipo de gr\u00E1fico aplica a DOS elementos solamente.")
@@ -140,7 +140,7 @@ output$disperRegrePlot <- renderPlotly({
   req(dsBase)
   #
   cast_data <- dsBase[c("id_t", input$disperRegreMediaHiper)]
-  selected_label <- media_labels %>% filter(variable %in% input$disperRegreMediaHiper) %>% select("desc")
+  selected_label <- media_labels %>% filter(variable == input$disperRegreMediaHiper) %>% select("desc")
   #
   scatPlot <- ggplot(cast_data,
                    aes_string(x=colnames(cast_data)[1], y=colnames(cast_data)[2], color=colnames(cast_data)[2])) +

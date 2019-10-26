@@ -27,7 +27,6 @@ media_labels <- data.frame(
   stringsAsFactors=FALSE
 )
 #
-medicionEstacionData <- read_excel("C:\\Temp\\MEDICIONES_ESTACIONES-San-Miguel_144.xlsx")
-#mediasColNames <- c("MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")
+medicionEstacionData <- read_excel("C:\\Temp\\MEDICIONES_ESTACIONES-Mensual-144.xlsx")
 #
 
