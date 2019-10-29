@@ -31,12 +31,25 @@ output$hipercartaEstacionesPlot <- renderDygraph({
      "MEDIA_pot_redox" = c("id_t", "LI_pot_redox", "MEDIA_pot_redox", "LS_pot_redox"),
      "MEDIA_tempera" = c("id_t", "LI_tempera", "MEDIA_tempera", "LS_tempera")
   )
+  # Se procede a realizar la creacion de un data.frame que contenga las 144
+  # filas de la hipercarta base, pero en las filas donde no hayan datos
+  # en la bitacora del mes, se deja el valor NA. Lo cual permite
+  # que la serie en dyGraphs se presente por segmentos.
+  dataParamSerie <- dsMesEstacion[c("id_t", input$hipercartaEstacionesSel)]
+  names(dataParamSerie) <- c("id_t", "parametro_estacion")
+  # data.frame a ser usado como anexo al dataSerie para la hipercarta completa:
+  dataSerieToBind <- data.frame("parametro_estacion"=1:nrow(dsBase))
+  dataSerieToBind$parametro_estacion <- NA # por defecto sin valor
   #
-  dataParamSerie <- dsMesEstacion[c(input$hipercartaEstacionesSel)]
-  names(dataParamSerie) <- c("parametro_estacion")
+  for(k in 1:nrow(dataParamSerie)) {
+     # En el DF dataSerieToBind se asigna el valor del dataParamSerie("parametro_estacion"->k,2, fila k, columna 2)
+     # usando como indice el dataParamSerie("id_t"->k,1, fila k, columna 1)). Aqui en particular se lee el valor
+     # puntual usando el operador [[n]], pues sin ello R retorna un elemento tipo list.
+     dataSerieToBind$parametro_estacion[dataParamSerie[[k,1]]] <- dataParamSerie[[k,2]]
+  }
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   # UTIL! cbind: combiana dos data.frame con el mismo numero de filas.
-  dataSerie <- cbind(dsBase[hiperParams], dataParamSerie)
+  dataSerie <- cbind(dsBase[hiperParams], dataSerieToBind)
   #
   if(input$hcEstacionesTipoCarta == "INT_CONF") {
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr", "parametro_estacion")
