@@ -7,6 +7,10 @@ output$boxplotEstacionesPlot <- renderPlotly({
   dsBase <- medicionEstacionData
   req(dsBase)
   #
+  if(!is.null(input$boxplotEstacionMes)) {
+     dsBase <- dsBase %>% filter(MES %in% input$boxplotEstacionMes)
+  }
+  #
   if(input$boxplotEstacDiaMes != "T") {
      dsBase <- dsBase %>% filter(DIA_MES == input$boxplotEstacDiaMes)
   }
@@ -28,7 +32,8 @@ output$boxplotEstacionesPlot <- renderPlotly({
     plot_ly(x=~estacion, y=~parametro, color=~estacion, type = "box", jitter=0.3, pointpos=0,
             boxpoints = if_else(input$boxplotEstacionPtosCheck, "all", "none"), # <- Los valores deben ser del mismo tipo: String.
             boxmean = "sd" # Atributo que activa la presentación de la media y la desviacion estandar en el box-plot.
-    ) %>% layout(xaxis=list(title="Estaci\u00F3n"), yaxis=list(title = sprintf("%s %s","Valor ", selected_label), zeroline = T))
+    ) %>% layout(xaxis=list(title="Estaci\u00F3n"),
+                 yaxis=list(title = sprintf("%s %s","Valor ", selected_label), zeroline = T))
    #
    return(gpy)
 })
@@ -57,7 +62,8 @@ output$violinEstacionesPlot <- renderPlotly({
   gpy <- dataSerie %>%
     plot_ly(x = ~estacion, y = ~parametro, split = ~estacion, type = "violin",
             box = list(visible = T), meanline = list(visible = T)
-    ) %>% layout(xaxis=list(title="Estaci\u00F3n"), yaxis=list(title = sprintf("%s %s","Valor ", selected_label), zeroline = T))
+    ) %>% layout(xaxis=list(title="Estaci\u00F3n"),
+                 yaxis=list(title = sprintf("%s %s","Valor ", selected_label), zeroline = T))
    #
    return(gpy)
 })
