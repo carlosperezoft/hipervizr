@@ -41,7 +41,11 @@ output$boxplotEstacionesPlot <- renderPlotly({
 output$violinEstacionesPlot <- renderPlotly({
   dsBase <- medicionEstacionData
   req(dsBase)
-   #
+  #
+  if(!is.null(input$violinEstacionMes)) {
+     dsBase <- dsBase %>% filter(MES %in% input$violinEstacionMes)
+  }
+  #
   if(input$violinEstacDiaMes != "T") {
      dsBase <- dsBase %>% filter(DIA_MES == input$violinEstacDiaMes)
   }
@@ -71,6 +75,10 @@ output$violinEstacionesPlot <- renderPlotly({
 output$distriDensiEstacionesPlot <- renderPlotly({
   dsBase <- medicionEstacionData
   req(dsBase)
+  #
+  if(!is.null(input$densidadEstacionMes)) {
+     dsBase <- dsBase %>% filter(MES %in% input$densidadEstacionMes)
+  }
   #
   if(input$densidadEstacDiaMes != "T") {
      dsBase <- dsBase %>% filter(DIA_MES == input$densidadEstacDiaMes)
@@ -107,6 +115,10 @@ output$contornosEstacionesPlot <- renderPlotly({
   #
   if(input$contornoFiltroEstacion != "T") {
      dsBase <- dsBase %>% filter(ESTACION == input$contornoFiltroEstacion)
+  }
+  #
+  if(!is.null(input$contornoEstacionMes)) {
+     dsBase <- dsBase %>% filter(MES %in% input$contornoEstacionMes)
   }
   #
   if(input$contornoEstacDiaMes != "T") {

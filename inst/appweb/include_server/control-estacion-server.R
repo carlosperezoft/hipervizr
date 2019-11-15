@@ -13,6 +13,10 @@ output$hipercartaEstacionesPlot <- renderDygraph({
   dsMesEstacion <- medicionEstacionData
   req(dsMesEstacion)
   #
+  if(!is.null(input$hcEstacionesMes)) {
+     dsMesEstacion <- dsMesEstacion %>% filter(MES %in% input$hcEstacionesMes)
+  }
+  #
   dsMesEstacion <- dsMesEstacion %>% filter(ESTACION == input$hiperEstacionFiltroEstacion)
   #
   dsMesEstacion <- dsMesEstacion %>% filter(DIA_MES == input$hiperEstacionDiaMes)

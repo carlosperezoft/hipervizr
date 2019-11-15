@@ -23,6 +23,10 @@ tabItem(tabName = "controlEstacionTab",
              selectInput(inputId='hiperEstacionFiltroEstacion', label='Estaci\u00F3n',
                   choices=c("San Miguel"="1_SAN_MIGUEL", "Anc\u00F3n Sur"="2_ANCON_SUR", "Aula Ambiental"="3_AULA_AMBIENTAL"),
                   selected = "1_SAN_MIGUEL"),
+             selectInput("hcEstacionesMes", label = "Mes", width="220px", # Para ajutar el ancho del Select!
+                  choices = c("Enero"=1, "Febrero"=2, "Marzo"=3, "Abril"=4, "Mayo"=5, "Junio"=6,
+                              "Julio"=7, "Agosto"=8, "Septiembre"=9, "Octubre"=10, "Noviembre"=11, "Diciembre"=12),
+                  selected = 0, multiple = TRUE),
              sliderInput(inputId="hiperEstacionDiaMes", label = "D\u00EDa del Mes",
                          min=1, max=31, value=21),
              selectInput("hcEstacionesTipoCarta", label = "Presentar como", width="220px", # Para ajutar el ancho del Select!
