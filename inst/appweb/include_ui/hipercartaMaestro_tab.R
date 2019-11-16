@@ -7,7 +7,7 @@
 # ***
 #
 tabItem(tabName = "hipercartaMaestroTab",
-  h2("Hipercartas para las Variables de an\u00E1lisis"),
+  h2("Hipercartas para las Variables de an\u00E1lisis [De Julio a Agosto de 2018]."),
   dropdownButton(inputId = "mosaicoHiperOpsBtn",
      tags$h4("Opciones de Presentaci\u00F3n:"),
      selectInput("tipoSerie", label = "Presentar como", width="220px", # Para ajutar el ancho del Select!

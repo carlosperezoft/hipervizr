@@ -10,11 +10,11 @@
 # Ruta base para los archivos de datos de la app HIPERVIZ:
 hiperviz_data_path <- "C:\\Temp\\"
 #
-hiperCartaData <- read_excel(paste0(hiperviz_data_path,"HIPERCARTAS_Base_144.xlsx"))
+hiperCartaData <- read_excel(paste0(hiperviz_data_path,"HIPERCARTAS_JUL-DIC-2018_144.xlsx"))
 #
 mediasColNames <- c("MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")
 #
-cartaControlData <- read_excel(paste0(hiperviz_data_path,"CARTAS_CONTROL_Base_144.xlsx"))
+cartaControlData <- read_excel(paste0(hiperviz_data_path,"CARTAS_CONTROL_JUL-DIC-2018_144.xlsx"))
 #
 media_labels <- data.frame(
   variable = c("id_t", "MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera"),
@@ -31,5 +31,6 @@ media_labels <- data.frame(
 )
 #
 medicionEstacionData <- read_excel(paste0(hiperviz_data_path,"MEDICIONES_ESTACIONES-Mensual-144.xlsx"))
+hcAnconSurEstacionData <- read_excel(paste0(hiperviz_data_path,"HIPERCARTA-ANCON-SUR-27022019.xlsx"))
+hcSanMiguelEstacionData <- read_excel(paste0(hiperviz_data_path,"HIPERCARTA-SAN-MIGUEL-27022019.xlsx"))
 #
-

@@ -7,7 +7,14 @@
 # INICIO SERIES DE HIPERCARTA --< DETALLE CARTA DE CONTROL:
 #
 output$hipercartaEstacionesPlot <- renderDygraph({
-  dsBase <- hiperCartaData
+  #
+  # Seleccion de la hipercarta de referencia segun la estacion:
+  dsBase <- switch(input$hiperEstacionFiltroEstacion,
+     "1_SAN_MIGUEL" = hcSanMiguelEstacionData,
+     "2_ANCON_SUR" = hcAnconSurEstacionData,
+     "3_AULA_AMBIENTAL" = hcSanMiguelEstacionData
+     )
+  #
   req(dsBase)
   #
   dsMesEstacion <- medicionEstacionData

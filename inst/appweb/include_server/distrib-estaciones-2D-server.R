@@ -190,6 +190,10 @@ output$correlogramaEstacionesPlot <- renderPlot({
      dsBase <- dsBase %>% filter(ESTACION == input$correlogramaFiltroEstacion)
   }
   #
+  if(!is.null(input$correlogramaEstacionMes)) {
+     dsBase <- dsBase %>% filter(MES %in% input$correlogramaEstacionMes)
+  }
+  #
   if(input$correlogramaEstacDiaMes != "T") {
      dsBase <- dsBase %>% filter(DIA_MES == input$correlogramaEstacDiaMes)
   }

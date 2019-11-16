@@ -7,7 +7,7 @@
 # ***
 #
 tabItem(tabName = "cartaControlDetalleTab",
-  h2("Hipercarta con detalle de Cartas de Control."),
+  h2("Hipercarta con detalle de Cartas de Control [De Julio a Agosto de 2018]."),
   wellPanel(style = "background: white",
      helpText("Clic y arrastrar para zoom in (doble clic para restaurar). Se usa una Hipercarta a la vez debido a la diferencia entre escalas."),
      # UTIL: El uso de box(..) evita mayor parametrizacion en el layout "fluidRow":

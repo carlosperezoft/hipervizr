@@ -8,13 +8,13 @@
 # ***
 #
 tabItem(tabName = "controlEstacionTab",
-  h2("Hipercarta con control de Par\u00E1metros por estaci\u00F3n mensualmente."),
+  h3("Hipercarta con control de Par\u00E1metros por estaci\u00F3n mensualmente."),
   wellPanel(style = "background: white",
      helpText("Clic y arrastrar para zoom in (doble clic para restaurar). An\u00E1lisis de un par\u00E1metro teniendo la Hipercarta como referencia."),
      # UTIL: El uso de box(..) evita mayor parametrizacion en el layout "fluidRow":
      fluidRow(
         box(title = "Hipercarta (Referencia)", status = "success", solidHeader = TRUE, collapsible = TRUE, width = 12,
-          dropdownButton(tags$h3("Ajustes Hipercarta"),
+          dropdownButton(tags$h3("Ajustes por Medici\u00F3n"),
              selectInput("hipercartaEstacionesSel", label = "Hipercarta", width="220px", # Para ajutar el ancho del Select!
                      choices=c("Conductividad"="MEDIA_Condu", "pH"="MEDIA_ph",
                                "Oxig. Disuelto"="MEDIA_od", "Turbiedad"="MEDIA_turb",
@@ -28,7 +28,7 @@ tabItem(tabName = "controlEstacionTab",
                               "Julio"=7, "Agosto"=8, "Septiembre"=9, "Octubre"=10, "Noviembre"=11, "Diciembre"=12),
                   selected = 0, multiple = TRUE),
              sliderInput(inputId="hiperEstacionDiaMes", label = "D\u00EDa del Mes",
-                         min=1, max=31, value=21),
+                         min=1, max=31, value=1),
              selectInput("hcEstacionesTipoCarta", label = "Presentar como", width="220px", # Para ajutar el ancho del Select!
                   choices = c("Cada Serie Independiente"="SERIE_IND", "Intervalo de Confianza"="INT_CONF"),
                   selected = "INT_CONF"),

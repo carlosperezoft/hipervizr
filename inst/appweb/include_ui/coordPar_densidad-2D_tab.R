@@ -3,7 +3,7 @@
 # 11/03/2019 22:37:08 p. m.
 #
 tabItem(tabName="coordPar_densidad-2DTab",
-   h3("An\u00E1lisis Descriptivo usando las medias de las Hipercartas"),
+   h3("An\u00E1lisis Descriptivo usando las medias de las Hipercartas [De Julio a Agosto de 2018]."),
    navbarPage(tags$b("Descriptivo-2D"),
       tabPanel("Patrones", icon = icon("gg"),
          helpText(paste("Brushing: clic y arrastar sobre un eje (un clic para restaurar). Ordenar: doble clic sobre una variable.",
@@ -13,7 +13,6 @@ tabItem(tabName="coordPar_densidad-2DTab",
              parcoordsOutput("paralCoordsPlot", height="500px", width="100%" ) %>% withSpinner(type=5, color="cadetblue") %>%
              helper(type = "markdown", title = "HIPERVIZ-R: Coordenadas Paralelas", colour = "red",
                     content = "paralelasMediasPlot_help", size = "m") # size: define el ancho (s,m,l) del "popup"
-
           )
       ),
      navbarMenu("Distribuci\u00F3n",
