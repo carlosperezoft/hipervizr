@@ -23,6 +23,7 @@ shinyServer(function(input, output, session) {
   # grafica UI si es necesario.
   source('include_server/graficos_series.R', local=TRUE)
   source('include_server/control-estacion-server.R', local=TRUE)
+  source('include_server/control-dia-actual-online-server.R', local=TRUE)
   #
   ## ELEMENTOS DE AYUDA:
   output$basicsHelpText <- renderText( # La funcion renderText entrega el texto HTML, renderPrint tambien aplica
