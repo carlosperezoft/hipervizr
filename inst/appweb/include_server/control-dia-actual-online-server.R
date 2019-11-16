@@ -3,10 +3,16 @@
 # carlos.perezoft@gmail.com
 # 16/11/2019 11:32:08 a. m.
 #
+# Se define un timer para invalidar un contexto cada 10 minutos, lo
+# cual implica que la funcion que lo contenga se re-ejecute:
+autoInvalidate <- reactiveTimer(10*60000)
 #
 # INICIO SERIES DE HIPERCARTA --< DETALLE CARTA DE CONTROL:
 #
 output$hcDiaOnlinePlot <- renderDygraph({
+  # Define la re-ejecucion de la funcion. Esto con le fin de presentar cada
+  # 10 minutos el grafico actual.
+  autoInvalidate()
   #
   # Seleccion de la hipercarta de referencia segun la estacion:
   dsBase <- switch(input$hcDiaOnlineFiltroEstacion,
