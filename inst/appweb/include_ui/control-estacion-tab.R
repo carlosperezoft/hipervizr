@@ -26,7 +26,7 @@ tabItem(tabName = "controlEstacionTab",
              selectInput("hcEstacionesMes", label = "Mes", width="220px", # Para ajutar el ancho del Select!
                   choices = c("Enero"=1, "Febrero"=2, "Marzo"=3, "Abril"=4, "Mayo"=5, "Junio"=6,
                               "Julio"=7, "Agosto"=8, "Septiembre"=9, "Octubre"=10, "Noviembre"=11, "Diciembre"=12),
-                  selected = 0, multiple = TRUE),
+                  selected = 1, multiple = FALSE),
              sliderInput(inputId="hiperEstacionDiaMes", label = "D\u00EDa del Mes",
                          min=1, max=31, value=1),
              selectInput("hcEstacionesTipoCarta", label = "Presentar como", width="220px", # Para ajutar el ancho del Select!

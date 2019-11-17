@@ -71,7 +71,7 @@ output$hcDiaOnlinePlot <- renderDygraph({
      "MEDIA_od" = "OD [mg/l]",
      "MEDIA_turb" = "Turbiedad [NTU]",
      "MEDIA_pot_redox" = "ORP [mV]",
-     "MEDIA_tempera" = "Temperatura [°C]" # <-ocurre un el error al procesar el JSON por el simbolo de grados!
+     "MEDIA_tempera" = "Temperatura [°C]" # <-ocurre un error al procesar el JSON por el simbolo de grados!
   )
   #
   # Se procede a realizar la creacion de un data.frame que contenga las 144
@@ -81,9 +81,21 @@ output$hcDiaOnlinePlot <- renderDygraph({
   #
   print(paste0("https://redrio.metropol.gov.co/online2/RealTime?accion=getSerie&estacion=",
                             codigoEstacion, "&param=", codigoParam))
-  dataParamOnline <- jsonlite::fromJSON(
-                     paste0("https://redrio.metropol.gov.co/online2/RealTime?accion=getSerie&estacion=",
-                            codigoEstacion, "&param=", codigoParam))
+  #
+  # Se usar el bloque TRY-CATCH ya que en tiempo de ejecucion puede fallar el acceso al servicio:
+  tryCatch({
+     dataParamOnline <- jsonlite::fromJSON(
+                             paste0("https://redrio.metropol.gov.co/online2/RealTime?accion=getSerie&estacion=",
+                                    codigoEstacion, "&param=", codigoParam))
+     },
+     # UTIL-> stop: detiene la ejecucion de la funcion y presenta el mensaje de error indicado.
+     error = function(e) {
+        stop(sprintf("Falla al tener acceso al servicio online de RED RIO [ERROR_INFO]: %s", e))
+     },
+     warning = function(e) {
+        stop(sprintf("Validar uso del servicio online de RED RIO [WARNING_INFO]: %s", e))
+     }
+  )
   dataOnlineToBind <- data.frame("param_dia_actual"=1:nrow(dsBase))
   dataOnlineToBind$param_dia_actual <- NA # por defecto sin valor
   # POR-HACER: La columna 2 es la del valor en la serie el pH:

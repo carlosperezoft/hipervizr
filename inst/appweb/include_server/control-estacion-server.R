@@ -52,6 +52,12 @@ output$hipercartaEstacionesPlot <- renderDygraph({
   dataSerieToBind <- data.frame("parametro_estacion"=1:nrow(dsBase))
   dataSerieToBind$parametro_estacion <- NA # por defecto sin valor
   #
+  for(k in 1:nrow(dataParamSerie)) {
+     # En el DF dataSerieToBind se asigna el valor del dataParamSerie("parametro_estacion"->k,2, fila k, columna 2)
+     # usando como indice el dataParamSerie("id_t"->k,1, fila k, columna 1)). Aqui en particular se lee el valor
+     # puntual usando el operador [[n]], pues sin ello R retorna un elemento tipo list.
+     dataSerieToBind$parametro_estacion[dataParamSerie[[k,1]]] <- dataParamSerie[[k,2]]
+  }
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
   # UTIL! cbind: combiana dos data.frame con el mismo numero de filas.
   dataSerie <- cbind(dsBase[hiperParams], dataSerieToBind)
