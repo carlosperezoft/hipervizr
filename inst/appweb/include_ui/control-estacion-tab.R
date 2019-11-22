@@ -15,12 +15,12 @@ tabItem(tabName = "controlEstacionTab",
      fluidRow(
         box(title = "Hipercarta (Referencia)", status = "success", solidHeader = TRUE, collapsible = TRUE, width = 12,
           dropdownButton(tags$h3("Ajustes por Medici\u00F3n"),
-             selectInput("hipercartaEstacionesSel", label = "Hipercarta", width="220px", # Para ajutar el ancho del Select!
+             selectInput("hipercartaEstacionesSel", label = "Par\u00E1metro", width="220px", # Para ajutar el ancho del Select!
                      choices=c("Conductividad"="MEDIA_Condu", "pH"="MEDIA_ph",
                                "Oxig. Disuelto"="MEDIA_od", "Turbiedad"="MEDIA_turb",
                                "Pot. Redox"="MEDIA_pot_redox", "Temperatura"="MEDIA_tempera"),
                      selected="MEDIA_Condu"),
-             selectInput(inputId='hiperEstacionFiltroEstacion', label='Estaci\u00F3n',
+             selectInput(inputId='hiperEstacionFiltroEstacion', label='Estaci\u00F3n-Hipercarta',
                   choices=c("San Miguel"="1_SAN_MIGUEL", "Anc\u00F3n Sur"="2_ANCON_SUR", "Aula Ambiental"="3_AULA_AMBIENTAL"),
                   selected = "1_SAN_MIGUEL"),
              selectInput("hcEstacionesMes", label = "Mes", width="220px", # Para ajutar el ancho del Select!

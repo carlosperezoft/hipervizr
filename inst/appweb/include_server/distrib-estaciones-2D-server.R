@@ -38,6 +38,45 @@ output$boxplotEstacionesPlot <- renderPlotly({
    return(gpy)
 })
 #
+output$boxplotVarTempPlot <- renderPlotly({
+  dsBase <- medicionEstacionData
+  req(dsBase)
+  #
+  if(!is.null(input$boxplotVarTempMes)) {
+     dsBase <- dsBase %>% filter(MES %in% input$boxplotVarTempMes)
+  }
+  #
+  if(input$boxplotVarTempDiaMes != "T") {
+     dsBase <- dsBase %>% filter(DIA_MES == input$boxplotVarTempDiaMes)
+  }
+  #
+  if(!is.null(input$boxplotVarTempDiaSem)) {
+     dsBase <- dsBase %>% filter(DIA_SEMANA %in% input$boxplotVarTempDiaSem)
+  }
+  #
+  shiny::validate(
+    shiny::need(nrow(dsBase) > 0, # Este check valida la condicion de forma "afirmativa"..
+                "No se tienen mediciones disponibles para los filtros usados.")
+  )
+  #
+  dataSerie <- dsBase[c("id_fila", "MES", input$boxplotVarTempParam)]
+  names(dataSerie) <- c("id_fila", "mes", "parametro")
+  dataSerie <- dataSerie %>% transmute(id_fila = id_fila, mes = dplyr::case_when(
+                       mes == 8 ~ "Agosto",
+                       mes == 9 ~ "Septiembre"
+                   ), parametro = parametro)
+  selected_label <- media_labels %>% filter(variable == input$boxplotVarTempParam) %>% select("desc")
+  #
+  gpy <- dataSerie %>% # pointpos: Posicion donde salen los puntos, aqui el centro (0).
+    plot_ly(x=~mes, y=~parametro, color=~mes, type = "box", jitter=0.3, pointpos=0,
+            boxpoints = if_else(input$boxplotVarTempPtosCheck, "all", "none"), # <- Los valores deben ser del mismo tipo: String.
+            boxmean = "sd" # Atributo que activa la presentación de la media y la desviacion estandar en el box-plot.
+    ) %>% layout(xaxis=list(title="Mes"),
+                 yaxis=list(title = sprintf("%s %s","Valor ", selected_label), zeroline = T))
+   #
+   return(gpy)
+})
+#
 output$violinEstacionesPlot <- renderPlotly({
   dsBase <- medicionEstacionData
   req(dsBase)

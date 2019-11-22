@@ -15,20 +15,14 @@ tabItem(tabName = "controlDiaActualOnlineTab",
      fluidRow(
         box(title = "Hipercarta (Referencia)", status = "success", solidHeader = TRUE, collapsible = TRUE, width = 12,
           dropdownButton(tags$h3("Ajustes por Medici\u00F3n"),
-             selectInput("hcDiaOnlineSel", label = "Hipercarta", width="220px", # Para ajutar el ancho del Select!
+             selectInput("hcDiaOnlineSel", label = "Par\u00E1metro", width="220px", # Para ajutar el ancho del Select!
                      choices=c("Conductividad"="MEDIA_Condu", "pH"="MEDIA_ph",
                                "Oxig. Disuelto"="MEDIA_od", "Turbiedad"="MEDIA_turb",
                                "Pot. Redox"="MEDIA_pot_redox", "Temperatura"="MEDIA_tempera"),
                      selected="MEDIA_Condu"),
-             selectInput(inputId='hcDiaOnlineFiltroEstacion', label='Estaci\u00F3n',
+             selectInput(inputId='hcDiaOnlineFiltroEstacion', label='Estaci\u00F3n-Hipercarta',
                   choices=c("San Miguel"="1_SAN_MIGUEL", "Anc\u00F3n Sur"="2_ANCON_SUR", "Aula Ambiental"="3_AULA_AMBIENTAL"),
                   selected = "1_SAN_MIGUEL"),
-             # selectInput("hcDiaOnlineMes", label = "Mes", width="220px", # Para ajutar el ancho del Select!
-             #      choices = c("Enero"=1, "Febrero"=2, "Marzo"=3, "Abril"=4, "Mayo"=5, "Junio"=6,
-             #                  "Julio"=7, "Agosto"=8, "Septiembre"=9, "Octubre"=10, "Noviembre"=11, "Diciembre"=12),
-             #      selected = 0, multiple = TRUE),
-             # sliderInput(inputId="hcDiaOnlineDiaMes", label = "D\u00EDa del Mes",
-             #             min=1, max=31, value=1),
              selectInput("hcDiaOnlineTipoCarta", label = "Presentar como", width="220px", # Para ajutar el ancho del Select!
                   choices = c("Cada Serie Independiente"="SERIE_IND", "Intervalo de Confianza"="INT_CONF"),
                   selected = "INT_CONF"),

@@ -23,22 +23,6 @@ output$hcDiaOnlinePlot <- renderDygraph({
   #
   req(dsBase)
   #
-  # dsMesEstacion <- medicionEstacionData
-  # req(dsMesEstacion)
-  # #
-  # if(!is.null(input$hcDiaOnlineMes)) {
-  #    dsMesEstacion <- dsMesEstacion %>% filter(MES %in% input$hcDiaOnlineMes)
-  # }
-  # #
-  # dsMesEstacion <- dsMesEstacion %>% filter(ESTACION == input$hcDiaOnlineFiltroEstacion)
-  # #
-  # dsMesEstacion <- dsMesEstacion %>% filter(DIA_MES == input$hcDiaOnlineDiaMes)
-  #
-  # shiny::validate(
-  #   shiny::need(nrow(dsMesEstacion) > 0, # Este check valida la condicion de forma "afirmativa"..
-  #               "No se tienen mediciones disponibles para los filtros usados.")
-  # )
-  #
   hiperSel <- input$hcDiaOnlineSel
   hiperParams <- switch(hiperSel,
      "MEDIA_Condu" = c("id_t", "LI_Condu", "MEDIA_Condu", "LS_Condu"),
@@ -71,7 +55,7 @@ output$hcDiaOnlinePlot <- renderDygraph({
      "MEDIA_od" = "OD [mg/l]",
      "MEDIA_turb" = "Turbiedad [NTU]",
      "MEDIA_pot_redox" = "ORP [mV]",
-     "MEDIA_tempera" = "Temperatura [°C]" # <-ocurre un error al procesar el JSON por el simbolo de grados!
+     "MEDIA_tempera" = "Temperatura [<grados>C]"
   )
   #
   # Se procede a realizar la creacion de un data.frame que contenga las 144
@@ -79,11 +63,12 @@ output$hcDiaOnlinePlot <- renderDygraph({
   # en la bitacora del mes, se deja el valor NA. Lo cual permite
   # que la serie en dyGraphs se presente por segmentos.
   #
-  print(paste0("https://redrio.metropol.gov.co/online2/RealTime?accion=getSerie&estacion=",
-                            codigoEstacion, "&param=", codigoParam))
+  # print(paste0("https://redrio.metropol.gov.co/online2/RealTime?accion=getSerie&estacion=",
+  #                           codigoEstacion, "&param=", codigoParam))
   #
   # Se usar el bloque TRY-CATCH ya que en tiempo de ejecucion puede fallar el acceso al servicio:
   tryCatch({
+     # IMPORTANTE: Se crea un data.frame desde el JSON, tener en cuenta que cada columna queda tipo "character"
      dataParamOnline <- jsonlite::fromJSON(
                              paste0("https://redrio.metropol.gov.co/online2/RealTime?accion=getSerie&estacion=",
                                     codigoEstacion, "&param=", codigoParam))
@@ -96,17 +81,32 @@ output$hcDiaOnlinePlot <- renderDygraph({
         stop(sprintf("Validar uso del servicio online de RED RIO [WARNING_INFO]: %s", e))
      }
   )
-  dataOnlineToBind <- data.frame("param_dia_actual"=1:nrow(dsBase))
+  #
+  shiny::validate(# Este check valida la condicion de forma "afirmativa"..
+     shiny::need(!is.null(dataParamOnline) && !is.null(ncol(dataParamOnline)) && (ncol(dataParamOnline) == 3),
+     "No se tienen datos disponibles para la lectura ONLINE del servicio de RED RIO (para los filtros seleccionados).")
+  )
+  #
+  dataOnlineToBind <- data.frame("param_dia_actual"=1:nrow(dsBase), stringsAsFactors = FALSE)
   dataOnlineToBind$param_dia_actual <- NA # por defecto sin valor
-  # POR-HACER: La columna 2 es la del valor en la serie el pH:
-  for(k in 1:nrow(dataParamOnline)) {dataOnlineToBind$param_dia_actual[k] <- dataParamOnline[k,colNameParam]}
-  #print(dataOnlineToBind)
+  # POR-HACER: La columna "colNameParam" es la del valor en la serie. Tener en cuenta que en caso de no haber
+  # medicion en una hora dada, no se envia la fila respectiva. Para lo cual se debe usar el t-j como indice de fila.
+  # ANTES: Se asumia que el indice k siempre iba de 1 a 144 --> dataOnlineToBind$param_dia_actual[k] <- dataParamOnline[k,colNameParam]
+  # AHORA: Se tiene la col: "Tj" la cual indica el indice del dato, pues es posible que no haya continunidad de 1 a 144 en las medidas
+  #        de los 10 minutos.
+  for(k in 1:nrow(dataParamOnline)) {
+     # IMPORTANTE: se usa as.numeric(..) en la lectura de las columnas de "dataParamOnline"
+     # ya que los datos de las serie para "dyGraph" deben ser numeric para que funcione bien.
+     dataOnlineToBind$param_dia_actual[as.numeric(dataParamOnline[k,"Tj"])] <- as.numeric(dataParamOnline[k,colNameParam])
+  }
   #
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
-  # UTIL! cbind: combiana dos data.frame con el mismo numero de filas.
+  # UTIL! cbind: combina dos data.frame con el mismo numero de filas.
+  # IMPORTANTE: Las columnas de los data.frame a presentar en el "dyGraph" deben ser tipo "numeric".
   dataSerie <- cbind(dsBase[hiperParams], dataOnlineToBind)
   #
   if(input$hcDiaOnlineTipoCarta == "INT_CONF") {
+     # id_t: Debe usarse ya que el "dyGraph" la toma como ID de cada fila a graficar, y cada columna se toma como una serie:
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr", "param_dia_actual")
   }
   #
@@ -123,7 +123,11 @@ output$hcDiaOnlinePlot <- renderDygraph({
      # --> Asi se obtiene la primera palabra del string.
      param_name_label <- sub( "\\s.*", "", selected_label)
      #
-     gSerie <- gSerie %>% dySeries("param_dia_actual", label=paste("D\u00EDa Actual", param_name_label)) %>%
+     # IMPORTANTE: dyGraph permirte una serie de un elemento (1-col) o intervalo (3-cols).
+     # Aquí se configuran dos dySeries excelentes:
+     # a. La serie del param_dia_actual en interv. de conf. de la hipercarta (3-cols). Inicialmente fue solo: param_dia_actual
+     # b. La serie de la hipercarta base (3-cols). Con las dos series se ve un contraste muy bueno.
+     gSerie <- gSerie %>% dySeries(c("lwr","param_dia_actual", "upr"), label=paste("D\u00EDa Actual", param_name_label)) %>%
                           dySeries(c("lwr", "fit", "upr"), label=paste("Hipercarta", param_name_label))
   }
   if(!input$hcDiaOnlineShowgridCheck) {

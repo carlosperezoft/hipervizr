@@ -36,7 +36,7 @@ sidebar <- dashboardSidebar(width = "250px",
          # NOTA: Los atributos "badgeLabel" y "badgeColor" NO aplican en un menuSubItem !
          menuSubItem(text = "Mosaico Principal", tabName = "hipercartaMaestroTab", icon = icon("cube")),
          menuSubItem(text = "Cartas de Control", tabName = "cartaControlDetalleTab", icon = icon("gear")),
-         menuSubItem(text = "Control por Estaci\u00F3n", tabName = "controlEstacionTab", icon = icon("map")),
+         menuSubItem(text = "Control por Estaci\u00F3n - Mensual", tabName = "controlEstacionTab", icon = icon("map")),
          menuSubItem(text = "Control D\u00EDa Actual - online", tabName = "controlDiaActualOnlineTab", icon = icon("wifi"))
       ),
       # NOTA: El uso de "href", es excluyente con el uso de "tabName" y de "subitems". Se debe usar uno de ellos.

@@ -59,10 +59,12 @@ output$hipercartaEstacionesPlot <- renderDygraph({
      dataSerieToBind$parametro_estacion[dataParamSerie[[k,1]]] <- dataParamSerie[[k,2]]
   }
   # Obtencion del Data Frame de la serie usando manejo de columnas, funciona OK:
-  # UTIL! cbind: combiana dos data.frame con el mismo numero de filas.
+  # UTIL! cbind: combina dos data.frame con el mismo numero de filas.
+  # IMPORTANTE: Las columnas de los data.frame a presentar en el "dyGraph" deben ser tipo "numeric".
   dataSerie <- cbind(dsBase[hiperParams], dataSerieToBind)
   #
   if(input$hcEstacionesTipoCarta == "INT_CONF") {
+      # id_t: Debe usarse ya que el "dyGraph" la toma como ID de cada fila a graficar, y cada columna se toma como una serie:
      colnames(dataSerie) <- c("id_t", "lwr", "fit", "upr", "parametro_estacion")
   }
   #
@@ -79,7 +81,11 @@ output$hipercartaEstacionesPlot <- renderDygraph({
      # --> Asi se obtiene la primera palabra del string.
      param_name_label <- sub( "\\s.*", "", selected_label)
      #
-     gSerie <- gSerie %>% dySeries("parametro_estacion", label=paste("Par\u00E1metro", param_name_label)) %>%
+     # IMPORTANTE: dyGraph permirte una serie de un elemento (1-col) o intervalo (3-cols).
+     # Aquí se configuran dos dySeries excelentes:
+     # a. La serie del parametro_estacion en interv. de conf. de la hipercarta (3-cols). Inicialmente fue solo: parametro_estacion
+     # b. La serie de la hipercarta base (3-cols). Con las dos series se ve un contraste muy bueno.
+     gSerie <- gSerie %>% dySeries(c("lwr", "parametro_estacion", "upr"), label=paste("Par\u00E1metro", param_name_label)) %>%
                           dySeries(c("lwr", "fit", "upr"), label=paste("Hipercarta", param_name_label))
   }
   if(!input$hcEstacionesShowgridCheck) {
