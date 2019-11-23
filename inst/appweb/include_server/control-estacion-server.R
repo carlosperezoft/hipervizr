@@ -11,8 +11,8 @@ output$hipercartaEstacionesPlot <- renderDygraph({
   # Seleccion de la hipercarta de referencia segun la estacion:
   dsBase <- switch(input$hiperEstacionFiltroEstacion,
      "1_SAN_MIGUEL" = hcSanMiguelEstacionData,
-     "2_ANCON_SUR" = hcAnconSurEstacionData,
-     "3_AULA_AMBIENTAL" = hcSanMiguelEstacionData
+     "3_ANCON_SUR" = hcAnconSurEstacionData,
+     "8_AULA_AMBIENTAL" = hcSanMiguelEstacionData
      )
   #
   req(dsBase)

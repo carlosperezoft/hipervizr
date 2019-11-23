@@ -17,8 +17,8 @@ output$hcDiaOnlinePlot <- renderDygraph({
   # Seleccion de la hipercarta de referencia segun la estacion:
   dsBase <- switch(input$hcDiaOnlineFiltroEstacion,
      "1_SAN_MIGUEL" = hcSanMiguelEstacionData,
-     "2_ANCON_SUR" = hcAnconSurEstacionData,
-     "3_AULA_AMBIENTAL" = hcSanMiguelEstacionData
+     "3_ANCON_SUR" = hcAnconSurEstacionData,
+     "8_AULA_AMBIENTAL" = hcSanMiguelEstacionData
      )
   #
   req(dsBase)
@@ -36,8 +36,8 @@ output$hcDiaOnlinePlot <- renderDygraph({
   # Inicializacion del codigo de la estacion:
   codigoEstacion <- switch(input$hcDiaOnlineFiltroEstacion,
      "1_SAN_MIGUEL" = "61",
-     "2_ANCON_SUR" = "62",
-     "3_AULA_AMBIENTAL" = "63"
+     "3_ANCON_SUR" = "62",
+     "8_AULA_AMBIENTAL" = "63"
      )
   # Inicializacion del codigo del parametro:
   codigoParam <- switch(hiperSel,

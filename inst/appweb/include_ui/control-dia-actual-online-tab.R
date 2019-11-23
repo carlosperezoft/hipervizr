@@ -21,7 +21,7 @@ tabItem(tabName = "controlDiaActualOnlineTab",
                                "Pot. Redox"="MEDIA_pot_redox", "Temperatura"="MEDIA_tempera"),
                      selected="MEDIA_Condu"),
              selectInput(inputId='hcDiaOnlineFiltroEstacion', label='Estaci\u00F3n-Hipercarta',
-                  choices=c("San Miguel"="1_SAN_MIGUEL", "Anc\u00F3n Sur"="2_ANCON_SUR", "Aula Ambiental"="3_AULA_AMBIENTAL"),
+                  choices=c("San Miguel"="1_SAN_MIGUEL", "Anc\u00F3n Sur"="3_ANCON_SUR", "Aula Ambiental"="8_AULA_AMBIENTAL"),
                   selected = "1_SAN_MIGUEL"),
              selectInput("hcDiaOnlineTipoCarta", label = "Presentar como", width="220px", # Para ajutar el ancho del Select!
                   choices = c("Cada Serie Independiente"="SERIE_IND", "Intervalo de Confianza"="INT_CONF"),
