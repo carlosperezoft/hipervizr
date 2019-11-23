@@ -42,6 +42,8 @@ output$boxplotVarTempPlot <- renderPlotly({
   dsBase <- medicionEstacionData
   req(dsBase)
   #
+  dsBase <- dsBase %>% filter(ESTACION == input$boxplotVarTempEstacion)
+  #
   if(!is.null(input$boxplotVarTempMes)) {
      dsBase <- dsBase %>% filter(MES %in% input$boxplotVarTempMes)
   }
@@ -62,8 +64,9 @@ output$boxplotVarTempPlot <- renderPlotly({
   dataSerie <- dsBase[c("id_fila", "MES", input$boxplotVarTempParam)]
   names(dataSerie) <- c("id_fila", "mes", "parametro")
   dataSerie <- dataSerie %>% transmute(id_fila = id_fila, mes = dplyr::case_when(
-                       mes == 8 ~ "Agosto",
-                       mes == 9 ~ "Septiembre"
+                       mes == 1 ~ "1-Enero",mes == 2 ~ "2-Febrero",mes == 3 ~ "3-Marzo",mes == 4 ~ "4-Abril",
+                       mes == 5 ~ "5-Mayo",mes == 6 ~ "6-Junio",mes == 7 ~ "7-Julio",mes == 8 ~ "8-Agosto",
+                       mes == 9 ~ "9-Septiembre",mes == 10 ~ "10-Octubre",mes == 11 ~ "11-Noviembre",mes == 12 ~ "12-Diciembre"
                    ), parametro = parametro)
   selected_label <- media_labels %>% filter(variable == input$boxplotVarTempParam) %>% select("desc")
   #
