@@ -28,6 +28,10 @@ suppressPackageStartupMessages({
   library(readxl, quietly=TRUE)
   library(corrplot, quietly=TRUE)
   library(qgraph, quietly=TRUE)
+  # Paquetes para graficos extra:
+  library(circlize, quietly=TRUE)
+  library(GGally, quietly=TRUE)
+  library(rAmCharts, quietly=TRUE)
 })
 #
 ## Cargar las funciones propias del paquete semviz ubicadas en /R dir base:

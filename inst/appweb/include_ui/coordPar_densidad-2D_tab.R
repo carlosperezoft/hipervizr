@@ -146,7 +146,35 @@ tabItem(tabName="coordPar_densidad-2DTab",
                       withSpinner(type=4, color="cadetblue") %>%
           helper(type = "markdown", title = "SEMVIZ: Red de Correlaci\u00F3n", colour = "red",
                  content = "redCorrelacionPlot_help", size = "m") # size: define el ancho (s,m,l) del "popup"
-        )
+        ),
+        tabPanel("Diagrama de Cuerdas", icon = icon("life-ring"),
+          h4("Diagrama de Cuerdas (visi\u00F3n circular de la correlaciones entre los par\u00E1metros)."),
+          plotOutput("cuerdasCorrPlotOut", width = "700", height = "700") %>% withSpinner(type=5, color="cadetblue"),
+          helpText("[El color rojo/verde y el ancho de la cuerda indica una correlaci\u00F3n negativa/positiva y su magnitud].")
+        ),
+        tabPanel("Matriz de Dispersi\u00F3n (SPLOM)",icon = icon("th"), h4("Matriz de Dispersi\u00F3n (SPLOM)"),
+          plotlyOutput("splomCorrPlotOut", width = "100%", height = "800") %>% withSpinner(type=4, color="cadetblue"),
+          helpText("[La diagonal principal presenta la distribuci\u00F3n de desidad de cada par\u00E1metro].")
+        ),
+        tabPanel("Barras",icon = icon("signal"), h4("Barras"),
+             dropdownButton(inputId = "barrasCorrOpsBtn",
+                tags$h4("Opciones de Presentaci\u00F3n:"),
+                materialSwitch(inputId = "barrasCorrSortCheck", label = "Ordenar Valores",
+                               value = FALSE, status = "info", right = TRUE),
+                materialSwitch(inputId = "barrasCorrHorizCheck", label = "Vista Horizontal",
+                               value = FALSE, status = "success", right = TRUE),
+                materialSwitch(inputId = "barrasCorrStackCheck", label = "Apilar Barras",
+                               value = FALSE, status = "primary", right = TRUE),
+                materialSwitch(inputId = "barrasCorrCursorCheck", label = "Usar cursor Comparativo",
+                               value = FALSE, status = "danger", right = TRUE),
+                materialSwitch(inputId = "barrasCorrScrollCheck", label = "Usar barra Horizontal (Zoom)",
+                               value = FALSE, status = "warning", right = TRUE),
+                tags$i("Actualizaci\u00F3n autom\u00E1tica..."),
+                circle = TRUE, status = "danger", icon = icon("gear"), width = "250px",
+                size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
+             ),
+             amChartsOutput("barrasCorrPlotOut", width = "100%", height = "700") %>% withSpinner(type=5, color="cadetblue")
+          )
      )
   ) # FIN navbarPage
 )

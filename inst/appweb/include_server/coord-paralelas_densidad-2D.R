@@ -169,7 +169,22 @@ output$correlogramaPlotOut <- renderPlot({
   corrplot(cor(cast_data), method=input$correlogramaMethod, type=input$correlogramaSection, mar=c(1, 1, 2, 1),
            addCoef.col = showCoef, title = "Correlograma de las medias")
 })
-
+#
+output$cuerdasCorrPlotOut <- renderPlot({
+  dsBase <- hiperCartaData
+  req(dsBase)
+  #
+  cast_data <- dsBase[mediasColNames]
+  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXIGENO-DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  corMat <- cor(cast_data)
+  #
+  circos.clear()
+  col_fun = colorRamp2(c(-1, 0, 1), c("red", "white", "green"))
+  circlize::chordDiagram(corMat, symmetric = TRUE, col = col_fun,
+                         directional = -1, direction.type = "arrows", link.arr.type = "big.arrow")
+  #
+})
+#
 output$corrnetPlotOut <- renderPlot({
   dsBase <- hiperCartaData
   req(dsBase)
@@ -196,4 +211,46 @@ output$corrnetPlotOut <- renderPlot({
   title("Enclaces -> Verde: positivo | Rojo: negativo", line = 1.5)
   #
 }, width = 600, height = 600)
+#
+output$splomCorrPlotOut <- renderPlotly({
+  dsBase <- hiperCartaData
+  req(dsBase)
+  #
+  cast_data <- dsBase[mediasColNames]
+  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI-DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  #
+  pm <- GGally::ggpairs(cast_data, lower = list(continuous = "smooth"), mapping = ggplot2::aes(colour=I("cadetblue")))
+  ggplotly(pm)
+})
+#
+output$barrasCorrPlotOut <- renderAmCharts({
+  dsBase <- hiperCartaData
+  req(dsBase)
+  #
+  cast_data <- dsBase[mediasColNames]
+  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI-DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  # Valida ordenamiento de los score en los datos seleccionados:
+  if(input$barrasCorrSortCheck == TRUE){
+    # ordena los datos de menor a mayor por columna !
+    cast_data <- cast_data %>% dplyr::arrange_all()
+  }
+  #
+  # Create a vector of n contiguous colors. Alpha [0, 1], escala de claridad del color, 0 la mas baja, 1 oscuro
+  # Lista de funciones predefinidas en R-base:
+  # rainbow(n, alpha = 1)
+  # heat.colors(n, alpha = 1)
+  # terrain.colors(n, alpha = 1)
+  # topo.colors(n, alpha = 1)
+  # cm.colors(n, alpha = 1)
+  # --> el atributo "zoom" activa el cursor comparativo, equivale al uso de: .. %>% setChartCursor()
+  # --> el atributo "precision" define el numero de decimales en los datos numericos
+  # !!
+  # TODO: el caso de adicion de los LABELS para la barras, en poli_dem_data$row_label, usado aqui como x
+  amBarplot(y = colnames(cast_data), data = cast_data, xlab = "Fila", ylab = "Valor por Par\u00E1metro",
+            groups_color = rainbow(ncol(cast_data), alpha = 0.7), horiz = input$barrasCorrHorizCheck,
+            stack_type = if_else(input$barrasCorrStackCheck == TRUE, "regular", "none"),
+            legend = TRUE, show_values = FALSE, zoom = input$barrasCorrCursorCheck,
+            scrollbar = input$barrasCorrScrollCheck, precision = 3)
+  #
+})
 #
