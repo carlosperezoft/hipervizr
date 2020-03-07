@@ -175,7 +175,7 @@ output$cuerdasCorrPlotOut <- renderPlot({
   req(dsBase)
   #
   cast_data <- dsBase[mediasColNames]
-  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXIGENO-DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXIGENO_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
   corMat <- cor(cast_data)
   #
   circos.clear()
@@ -217,7 +217,7 @@ output$splomCorrPlotOut <- renderPlotly({
   req(dsBase)
   #
   cast_data <- dsBase[mediasColNames]
-  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI-DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
   #
   pm <- GGally::ggpairs(cast_data, lower = list(continuous = "smooth"), mapping = ggplot2::aes(colour=I("cadetblue")))
   ggplotly(pm)
@@ -228,11 +228,13 @@ output$barrasCorrPlotOut <- renderAmCharts({
   req(dsBase)
   #
   cast_data <- dsBase[mediasColNames]
-  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI-DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
   # Valida ordenamiento de los score en los datos seleccionados:
   if(input$barrasCorrSortCheck == TRUE){
     # ordena los datos de menor a mayor por columna !
-    cast_data <- cast_data %>% dplyr::arrange_all()
+    cast_data <- cast_data %>%
+                 transmute(CONDUCTIVIDAD=sort(CONDUCTIVIDAD), PH=sort(PH), OXI_DISUELTO=sort(OXI_DISUELTO),
+                           TURBIEDAD=sort(TURBIEDAD), POT_REDOX=sort(POT_REDOX), TEMPERATURA=sort(TEMPERATURA))
   }
   #
   # Create a vector of n contiguous colors. Alpha [0, 1], escala de claridad del color, 0 la mas baja, 1 oscuro
@@ -249,8 +251,7 @@ output$barrasCorrPlotOut <- renderAmCharts({
   amBarplot(y = colnames(cast_data), data = cast_data, xlab = "Fila", ylab = "Valor por Par\u00E1metro",
             groups_color = rainbow(ncol(cast_data), alpha = 0.7), horiz = input$barrasCorrHorizCheck,
             stack_type = if_else(input$barrasCorrStackCheck == TRUE, "regular", "none"),
-            legend = TRUE, show_values = FALSE, zoom = input$barrasCorrCursorCheck,
-            scrollbar = input$barrasCorrScrollCheck, precision = 3)
+            legend = TRUE, show_values = FALSE, zoom = TRUE, scrollbar = TRUE, precision = 3)
   #
 })
 #

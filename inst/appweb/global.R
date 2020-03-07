@@ -32,6 +32,7 @@ suppressPackageStartupMessages({
   library(circlize, quietly=TRUE)
   library(GGally, quietly=TRUE)
   library(rAmCharts, quietly=TRUE)
+  library(heatmaply, quietly=TRUE)
 })
 #
 ## Cargar las funciones propias del paquete semviz ubicadas en /R dir base:

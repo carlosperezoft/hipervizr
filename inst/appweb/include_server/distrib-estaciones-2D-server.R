@@ -64,9 +64,9 @@ output$boxplotVarTempPlot <- renderPlotly({
   dataSerie <- dsBase[c("id_fila", "MES", input$boxplotVarTempParam)]
   names(dataSerie) <- c("id_fila", "mes", "parametro")
   dataSerie <- dataSerie %>% transmute(id_fila = id_fila, mes = dplyr::case_when(
-                       mes == 1 ~ "1-Enero",mes == 2 ~ "2-Febrero",mes == 3 ~ "3-Marzo",mes == 4 ~ "4-Abril",
-                       mes == 5 ~ "5-Mayo",mes == 6 ~ "6-Junio",mes == 7 ~ "7-Julio",mes == 8 ~ "8-Agosto",
-                       mes == 9 ~ "9-Septiembre",mes == 10 ~ "10-Octubre",mes == 11 ~ "11-Noviembre",mes == 12 ~ "12-Diciembre"
+                       mes == 1 ~ "01-Enero",mes == 2 ~ "02-Febrero",mes == 3 ~ "03-Marzo",mes == 4 ~ "04-Abril",
+                       mes == 5 ~ "05-Mayo",mes == 6 ~ "06-Junio",mes == 7 ~ "07-Julio",mes == 8 ~ "08-Agosto",
+                       mes == 9 ~ "09-Septiembre",mes == 10 ~ "10-Octubre",mes == 11 ~ "11-Noviembre",mes == 12 ~ "12-Diciembre"
                    ), parametro = parametro)
   selected_label <- media_labels %>% filter(variable == input$boxplotVarTempParam) %>% select("desc")
   #
@@ -248,8 +248,8 @@ output$correlogramaEstacionesPlot <- renderPlot({
     shiny::need(nrow(dsBase) > 0, # Este check valida la condicion de forma "afirmativa"..
                 "No se tienen mediciones disponibles para los filtros usados.")
   )
-  #
-  cast_data <- dsBase[mediasColNames]
+  # Se usa el metodo "na.omit" para quitar las filas con valores NA en alguna celda.
+  cast_data <- na.omit(dsBase[mediasColNames])
   # El operador ternario "if_else", no maneja bien el NULL como un tipo de retorno para Strings.
   if(input$correlogramaEstacionesCoefCheck == TRUE) {
      showCoef = "black"
@@ -257,8 +257,120 @@ output$correlogramaEstacionesPlot <- renderPlot({
      showCoef = NULL
   }
   #
-  corrplot(cor(cast_data), method=input$correlogramaEstacionesMethod, type=input$correlogramaEstacionesSection,
+  corMat <- cor(cast_data)
+  corrplot(corMat, method=input$correlogramaEstacionesMethod, type=input$correlogramaEstacionesSection,
            mar=c(1, 1, 2, 1), addCoef.col = showCoef, title = "Correlograma de los Par\u00E1metros")
 })
-
+#
+output$cuerdasCorrEstacionesPlotOut <- renderPlot({
+  dsBase <- medicionEstacionData
+  req(dsBase)
+  #
+  if(input$cuerdasCorrEstacionesFiltroEstacion != "T") {
+     dsBase <- dsBase %>% filter(ESTACION == input$cuerdasCorrEstacionesFiltroEstacion)
+  }
+  #
+  if(!is.null(input$cuerdasCorrEstacionesMes)) {
+     dsBase <- dsBase %>% filter(MES %in% input$cuerdasCorrEstacionesMes)
+  }
+  #
+  if(input$cuerdasCorrEstacionesDiaMes != "T") {
+     dsBase <- dsBase %>% filter(DIA_MES == input$cuerdasCorrEstacionesDiaMes)
+  }
+  #
+  if(!is.null(input$cuerdasCorrEstacionesDiaSem)) {
+     dsBase <- dsBase %>% filter(DIA_SEMANA %in% input$cuerdasCorrEstacionesDiaSem)
+  }
+  #
+  shiny::validate(
+    shiny::need(nrow(dsBase) > 0, # Este check valida la condicion de forma "afirmativa"..
+                "No se tienen mediciones disponibles para los filtros usados.")
+  )
+  # Se usa el metodo "na.omit" para quitar las filas con valores NA en alguna celda.
+  cast_data <- na.omit(dsBase[mediasColNames])
+  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXIGENO_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  corMat <- cor(cast_data)
+  #
+  circos.clear()
+  col_fun = colorRamp2(c(-1, 0, 1), c("red", "white", "green"))
+  circlize::chordDiagram(corMat, symmetric = TRUE, col = col_fun,
+                         directional = -1, direction.type = "arrows", link.arr.type = "big.arrow")
+  #
+})
+#
+output$splomCorrEstacionesPlotOut <- renderPlotly({
+  dsBase <- medicionEstacionData
+  req(dsBase)
+  #
+  if(input$splomCorrEstacionesFiltroEstacion != "T") {
+     dsBase <- dsBase %>% filter(ESTACION == input$splomCorrEstacionesFiltroEstacion)
+  }
+  #
+  if(!is.null(input$splomCorrEstacionesMes)) {
+     dsBase <- dsBase %>% filter(MES %in% input$splomCorrEstacionesMes)
+  }
+  #
+  if(input$splomCorrEstacionesDiaMes != "T") {
+     dsBase <- dsBase %>% filter(DIA_MES == input$splomCorrEstacionesDiaMes)
+  }
+  #
+  if(!is.null(input$splomCorrEstacionesDiaSem)) {
+     dsBase <- dsBase %>% filter(DIA_SEMANA %in% input$splomCorrEstacionesDiaSem)
+  }
+  #
+  shiny::validate(
+    shiny::need((nrow(dsBase) > 0) && (nrow(dsBase) < 5000), # Este check valida la condicion de forma "afirmativa"..
+                "No se tienen mediciones disponibles para los filtros usados.")
+  )
+  # Se usa el metodo "na.omit" para quitar las filas con valores NA en alguna celda.
+  cast_data <- na.omit(dsBase[mediasColNames])
+  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  #
+  pm <- GGally::ggpairs(cast_data, lower = list(continuous = "smooth"), mapping = ggplot2::aes(colour=I("cadetblue")))
+  ggplotly(pm)
+})
+#
+output$heatmapEstacionesPlotOut <- renderPlotly({
+  dsBase <- medicionEstacionData
+  req(dsBase)
+  #
+  if(input$heatmapEstacionesFiltroEstacion != "T") {
+     dsBase <- dsBase %>% filter(ESTACION == input$heatmapEstacionesFiltroEstacion)
+  }
+  #
+  if(!is.null(input$heatmapEstacionesMes)) {
+     dsBase <- dsBase %>% filter(MES %in% input$heatmapEstacionesMes)
+  }
+  #
+  if(input$heatmapEstacionesDiaMes != "T") {
+     dsBase <- dsBase %>% filter(DIA_MES == input$heatmapEstacionesDiaMes)
+  }
+  #
+  if(!is.null(input$heatmapEstacionesDiaSem)) {
+     dsBase <- dsBase %>% filter(DIA_SEMANA %in% input$heatmapEstacionesDiaSem)
+  }
+  #
+  shiny::validate(
+    shiny::need((nrow(dsBase) > 0) && (nrow(dsBase) < 5000), # Este check valida la condicion de forma "afirmativa"..
+                "No se tienen mediciones disponibles para los filtros usados.")
+  )
+  # Se usa el metodo "na.omit" para quitar las filas con valores NA en alguna celda.
+  cast_data <- na.omit(dsBase[mediasColNames])
+  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  #
+  if(input$heatmapEstacionesTransType == "Normalizar") {
+    cast_data <- heatmaply::normalize(cast_data)
+  }
+  #
+  if(input$heatmapEstacionesTransType == "Escalar") {
+    hpy <- heatmaply(cast_data, scale = "column", margins = c(60,100,40,20), colors = RdYlBu,
+              main = paste("Transformaci\u00F3n aplicada:", input$heatmapEstacionesTransType),
+              xlab = "par\u00E1metro", ylab = "Fila:valor", k_col = 2, k_row = 3, dendrogram = input$heatmapEstacionesDendroType)
+  } else {
+    hpy <- heatmaply(cast_data, margins = c(60,100,40,20), k_col = 2, k_row = 3, colors = Oranges,
+              main = paste("Transformaci\u00F3n aplicada:", input$heatmapEstacionesTransType),
+              xlab = "par\u00E1metro", ylab = "Fila:valor", dendrogram = input$heatmapEstacionesDendroType)
+  }
+  return(hpy)
+})
 #
