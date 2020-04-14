@@ -13,6 +13,7 @@ hiperviz_data_path <- "C:\\Temp\\"
 hiperCartaData <- read_excel(paste0(hiperviz_data_path,"HIPERCARTAS_JUL-DIC-2018_144.xlsx"))
 #
 mediasColNames <- c("MEDIA_Condu", "MEDIA_ph", "MEDIA_od", "MEDIA_turb", "MEDIA_pot_redox", "MEDIA_tempera")
+paramsColNames <- c("CONDUCTIVIDAD", "PH", "OXI_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
 #
 cartaControlData <- read_excel(paste0(hiperviz_data_path,"CARTAS_CONTROL_JUL-DIC-2018_144.xlsx"))
 #
@@ -30,7 +31,8 @@ media_labels <- data.frame(
   stringsAsFactors=FALSE
 )
 #
-medicionEstacionData <- read_excel(paste0(hiperviz_data_path,"MEDICIONES_ESTACIONES-Mensual-144.xlsx"))
+#medicionEstacionData <- read_excel(paste0(hiperviz_data_path,"MEDICIONES_ESTACIONES-Mensual-144-NOV2019.xlsx"))
+medicionEstacionData <- read_excel(paste0(hiperviz_data_path,"Consolidado-ESTAC-GNRAL-15min-MAR2020.xlsx"))
 hcAnconSurEstacionData <- read_excel(paste0(hiperviz_data_path,"HIPERCARTA-ANCON-SUR-27022019.xlsx"))
 hcSanMiguelEstacionData <- read_excel(paste0(hiperviz_data_path,"HIPERCARTA-SAN-MIGUEL-27022019.xlsx"))
 #

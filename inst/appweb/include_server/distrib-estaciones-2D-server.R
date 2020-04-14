@@ -64,10 +64,10 @@ output$boxplotVarTempPlot <- renderPlotly({
   dataSerie <- dsBase[c("id_fila", "MES", input$boxplotVarTempParam)]
   names(dataSerie) <- c("id_fila", "mes", "parametro")
   dataSerie <- dataSerie %>% transmute(id_fila = id_fila, mes = dplyr::case_when(
-                       mes == 1 ~ "01-Enero",mes == 2 ~ "02-Febrero",mes == 3 ~ "03-Marzo",mes == 4 ~ "04-Abril",
-                       mes == 5 ~ "05-Mayo",mes == 6 ~ "06-Junio",mes == 7 ~ "07-Julio",mes == 8 ~ "08-Agosto",
-                       mes == 9 ~ "09-Septiembre",mes == 10 ~ "10-Octubre",mes == 11 ~ "11-Noviembre",mes == 12 ~ "12-Diciembre"
-                   ), parametro = parametro)
+        mes == 1 ~ "2020-01-Enero",mes == 2 ~ "2020-02-Febrero",mes == 3 ~ "2020-03-Marzo",mes == 4 ~ "2020-04-Abril",
+        mes == 5 ~ "2020-05-Mayo",mes == 6 ~ "2020-06-Junio",mes == 7 ~ "2019-07-Julio",mes == 8 ~ "2019-08-Agosto",
+        mes == 9 ~ "2019-09-Septiembre",mes == 10 ~ "2019-10-Octubre",mes == 11 ~ "2019-11-Noviembre",mes == 12 ~ "2019-12-Diciembre"
+        ), parametro = parametro)
   selected_label <- media_labels %>% filter(variable == input$boxplotVarTempParam) %>% select("desc")
   #
   gpy <- dataSerie %>% # pointpos: Posicion donde salen los puntos, aqui el centro (0).
@@ -250,6 +250,7 @@ output$correlogramaEstacionesPlot <- renderPlot({
   )
   # Se usa el metodo "na.omit" para quitar las filas con valores NA en alguna celda.
   cast_data <- na.omit(dsBase[mediasColNames])
+  names(cast_data) <- paramsColNames
   # El operador ternario "if_else", no maneja bien el NULL como un tipo de retorno para Strings.
   if(input$correlogramaEstacionesCoefCheck == TRUE) {
      showCoef = "black"
@@ -288,7 +289,7 @@ output$cuerdasCorrEstacionesPlotOut <- renderPlot({
   )
   # Se usa el metodo "na.omit" para quitar las filas con valores NA en alguna celda.
   cast_data <- na.omit(dsBase[mediasColNames])
-  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXIGENO_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  names(cast_data) <- paramsColNames
   corMat <- cor(cast_data)
   #
   circos.clear()
@@ -324,7 +325,7 @@ output$splomCorrEstacionesPlotOut <- renderPlotly({
   )
   # Se usa el metodo "na.omit" para quitar las filas con valores NA en alguna celda.
   cast_data <- na.omit(dsBase[mediasColNames])
-  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  names(cast_data) <- paramsColNames
   #
   pm <- GGally::ggpairs(cast_data, lower = list(continuous = "smooth"), mapping = ggplot2::aes(colour=I("cadetblue")))
   ggplotly(pm)
@@ -356,7 +357,7 @@ output$heatmapEstacionesPlotOut <- renderPlotly({
   )
   # Se usa el metodo "na.omit" para quitar las filas con valores NA en alguna celda.
   cast_data <- na.omit(dsBase[mediasColNames])
-  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  names(cast_data) <- paramsColNames
   #
   if(input$heatmapEstacionesTransType == "Normalizar") {
     cast_data <- heatmaply::normalize(cast_data)

@@ -159,6 +159,7 @@ output$correlogramaPlotOut <- renderPlot({
   req(dsBase)
   #
   cast_data <- dsBase[mediasColNames]
+  names(cast_data) <- paramsColNames
   # El operador ternario "if_else", no maneja bien el NULL como un tipo de retorno para Strings.
   if(input$correlogramaCoefCheck == TRUE) {
      showCoef = "black"
@@ -175,7 +176,7 @@ output$cuerdasCorrPlotOut <- renderPlot({
   req(dsBase)
   #
   cast_data <- dsBase[mediasColNames]
-  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXIGENO_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  names(cast_data) <- paramsColNames
   corMat <- cor(cast_data)
   #
   circos.clear()
@@ -217,7 +218,7 @@ output$splomCorrPlotOut <- renderPlotly({
   req(dsBase)
   #
   cast_data <- dsBase[mediasColNames]
-  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  names(cast_data) <- paramsColNames
   #
   pm <- GGally::ggpairs(cast_data, lower = list(continuous = "smooth"), mapping = ggplot2::aes(colour=I("cadetblue")))
   ggplotly(pm)
@@ -228,7 +229,7 @@ output$barrasCorrPlotOut <- renderAmCharts({
   req(dsBase)
   #
   cast_data <- dsBase[mediasColNames]
-  names(cast_data) <- c("CONDUCTIVIDAD", "PH", "OXI_DISUELTO", "TURBIEDAD", "POT_REDOX", "TEMPERATURA")
+  names(cast_data) <- paramsColNames
   # Valida ordenamiento de los score en los datos seleccionados:
   if(input$barrasCorrSortCheck == TRUE){
     # ordena los datos de menor a mayor por columna !

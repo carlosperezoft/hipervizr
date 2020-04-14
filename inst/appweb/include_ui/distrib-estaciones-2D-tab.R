@@ -191,7 +191,7 @@ tabItem(tabName="distrib-estaciones-2DTab",
               size = "xs", tooltip = tooltipOptions(title = "Cambiar opciones...")
            ),
            # IMPORTANTE: corrplot genera un grafico estandar para el cual plotly no tiene WRAPPER...
-           plotOutput("correlogramaEstacionesPlot", width = "100%", height = "500") %>% withSpinner(type=5, color="cadetblue")
+           plotOutput("correlogramaEstacionesPlot", width = "100%", height = "600") %>% withSpinner(type=5, color="cadetblue")
         ),
         tabPanel("Diagrama de Cuerdas", icon = icon("life-ring"),
           h4("Diagrama de Cuerdas (visi\u00F3n circular de la correlaciones entre los par\u00E1metros)."),
